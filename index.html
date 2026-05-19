@@ -750,16 +750,34 @@ function toggleEditMode() {
     );
   });
 
-  // ② ブランド名のoninput：比較ページへ即時反映
+  // ② ブランド名のoninput：比較ページへ即時反映（日本語変換対応）
   BRANDS.forEach(b => {
     const nameEl = document.getElementById('brand'+b+'-name');
     if (nameEl) {
-      nameEl.oninput = editMode ? () => syncBrandNameToCmp(b) : null;
+      if (editMode) {
+        nameEl._composing = false;
+        nameEl.addEventListener('compositionstart', nameEl._csStart = () => { nameEl._composing = true; });
+        nameEl.addEventListener('compositionend',   nameEl._csEnd   = () => { nameEl._composing = false; syncBrandNameToCmp(b); });
+        nameEl.addEventListener('input',            nameEl._csInput = () => { if (!nameEl._composing) syncBrandNameToCmp(b); });
+      } else {
+        nameEl.removeEventListener('compositionstart', nameEl._csStart);
+        nameEl.removeEventListener('compositionend',   nameEl._csEnd);
+        nameEl.removeEventListener('input',            nameEl._csInput);
+      }
     }
-    // ① 担当者名のoninput：全ページへ即時反映
+    // ① 担当者名：全ページへ即時反映（日本語変換対応）
     const coordEl = document.getElementById('coord-name'+b);
     if (coordEl) {
-      coordEl.oninput = editMode ? () => syncCoordName(b) : null;
+      if (editMode) {
+        coordEl._composing = false;
+        coordEl.addEventListener('compositionstart', coordEl._csStart = () => { coordEl._composing = true; });
+        coordEl.addEventListener('compositionend',   coordEl._csEnd   = () => { coordEl._composing = false; syncCoordName(b); });
+        coordEl.addEventListener('input',            coordEl._csInput = () => { if (!coordEl._composing) syncCoordName(b); });
+      } else {
+        coordEl.removeEventListener('compositionstart', coordEl._csStart);
+        coordEl.removeEventListener('compositionend',   coordEl._csEnd);
+        coordEl.removeEventListener('input',            coordEl._csInput);
+      }
     }
   });
 
