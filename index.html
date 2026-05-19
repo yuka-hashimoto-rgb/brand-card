@@ -439,7 +439,7 @@ body.edit-mode .star { cursor: pointer; }
       <div class="section"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaB" onclick="triggerMvUpload('B')"><img id="mvB" src="" alt=""><div class="mv-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>ブランドを象徴するメインビジュアル</span></div><div class="mv-edit-overlay"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>タップして画像を選択</div><input type="file" accept="image/*" class="mv-file-input" id="mvInputB" onchange="loadMvImage(this,'mvB','mvAreaB')"></div></div>
       <div class="section"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaB-0" onclick="triggerAtmUpload('B',0)"><img id="atmB-0" src="" alt=""><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputB-0" onchange="loadAtmImage(this,'atmB-0','atmAreaB-0')"></div><div class="atm-cell" id="atmAreaB-1" onclick="triggerAtmUpload('B',1)"><img id="atmB-1" src="" alt=""><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>商品</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputB-1" onchange="loadAtmImage(this,'atmB-1','atmAreaB-1')"></div></div>
       <div class="section"><div class="sec-label">Recommend Points</div><div class="recommend-list"><div class="recommend-item"><div class="rec-num">1</div><div class="rec-text" id="brandB-rec1">おすすめポイント1を入力してください</div></div><div class="recommend-item"><div class="rec-num">2</div><div class="rec-text" id="brandB-rec2">おすすめポイント2を入力してください</div></div><div class="recommend-item"><div class="rec-num">3</div><div class="rec-text" id="brandB-rec3">おすすめポイント3を入力してください</div></div></div></div>
-      <div class="coordinator"><div class="coord-avatar">山</div><div><div class="coord-name">山田 花子</div><div class="coord-role">キャリアコーディネーター</div><div class="coord-note">ご質問はいつでもどうぞ</div></div></div>
+      <div class="coordinator"><div class="coord-avatar">山</div><div><div class="coord-name" id="coord-nameB">山田 花子</div><div class="coord-role">キャリアコーディネーター</div><div class="coord-note">ご質問はいつでもどうぞ</div></div></div>
     </div>
   </div>
 </div>
@@ -494,7 +494,7 @@ body.edit-mode .star { cursor: pointer; }
       <div class="section"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaC" onclick="triggerMvUpload('C')"><img id="mvC" src="" alt=""><div class="mv-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>ブランドを象徴するメインビジュアル</span></div><div class="mv-edit-overlay"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>タップして画像を選択</div><input type="file" accept="image/*" class="mv-file-input" id="mvInputC" onchange="loadMvImage(this,'mvC','mvAreaC')"></div></div>
       <div class="section"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaC-0" onclick="triggerAtmUpload('C',0)"><img id="atmC-0" src="" alt=""><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputC-0" onchange="loadAtmImage(this,'atmC-0','atmAreaC-0')"></div><div class="atm-cell" id="atmAreaC-1" onclick="triggerAtmUpload('C',1)"><img id="atmC-1" src="" alt=""><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>商品</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputC-1" onchange="loadAtmImage(this,'atmC-1','atmAreaC-1')"></div></div>
       <div class="section"><div class="sec-label">Recommend Points</div><div class="recommend-list"><div class="recommend-item"><div class="rec-num">1</div><div class="rec-text" id="brandC-rec1">おすすめポイント1を入力してください</div></div><div class="recommend-item"><div class="rec-num">2</div><div class="rec-text" id="brandC-rec2">おすすめポイント2を入力してください</div></div><div class="recommend-item"><div class="rec-num">3</div><div class="rec-text" id="brandC-rec3">おすすめポイント3を入力してください</div></div></div></div>
-      <div class="coordinator"><div class="coord-avatar">山</div><div><div class="coord-name">山田 花子</div><div class="coord-role">キャリアコーディネーター</div><div class="coord-note">ご質問はいつでもどうぞ</div></div></div>
+      <div class="coordinator"><div class="coord-avatar">山</div><div><div class="coord-name" id="coord-nameC">山田 花子</div><div class="coord-role">キャリアコーディネーター</div><div class="coord-note">ご質問はいつでもどうぞ</div></div></div>
     </div>
   </div>
 </div>
@@ -549,7 +549,7 @@ body.edit-mode .star { cursor: pointer; }
       <div class="section"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaD" onclick="triggerMvUpload('D')"><img id="mvD" src="" alt=""><div class="mv-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>ブランドを象徴するメインビジュアル</span></div><div class="mv-edit-overlay"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>タップして画像を選択</div><input type="file" accept="image/*" class="mv-file-input" id="mvInputD" onchange="loadMvImage(this,'mvD','mvAreaD')"></div></div>
       <div class="section"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaD-0" onclick="triggerAtmUpload('D',0)"><img id="atmD-0" src="" alt=""><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputD-0" onchange="loadAtmImage(this,'atmD-0','atmAreaD-0')"></div><div class="atm-cell" id="atmAreaD-1" onclick="triggerAtmUpload('D',1)"><img id="atmD-1" src="" alt=""><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>商品</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputD-1" onchange="loadAtmImage(this,'atmD-1','atmAreaD-1')"></div></div>
       <div class="section"><div class="sec-label">Recommend Points</div><div class="recommend-list"><div class="recommend-item"><div class="rec-num">1</div><div class="rec-text" id="brandD-rec1">おすすめポイント1を入力してください</div></div><div class="recommend-item"><div class="rec-num">2</div><div class="rec-text" id="brandD-rec2">おすすめポイント2を入力してください</div></div><div class="recommend-item"><div class="rec-num">3</div><div class="rec-text" id="brandD-rec3">おすすめポイント3を入力してください</div></div></div></div>
-      <div class="coordinator"><div class="coord-avatar">山</div><div><div class="coord-name">山田 花子</div><div class="coord-role">キャリアコーディネーター</div><div class="coord-note">ご質問はいつでもどうぞ</div></div></div>
+      <div class="coordinator"><div class="coord-avatar">山</div><div><div class="coord-name" id="coord-nameD">山田 花子</div><div class="coord-role">キャリアコーディネーター</div><div class="coord-note">ご質問はいつでもどうぞ</div></div></div>
     </div>
   </div>
 </div>
@@ -614,11 +614,28 @@ function applyBrandFont(brand, fontFamily) {
 function applyBrandSize(brand, size) {
   const el = document.getElementById('brand'+brand+'-name');
   if (el) el.style.fontSize = size;
-  // ボタンのactiveを切替
   const btns = document.querySelectorAll(`[onclick*="applyBrandSize('${brand}'"]`);
   btns.forEach(b => {
     b.classList.toggle('active', b.getAttribute('onclick').includes(`'${size}'`));
   });
+}
+
+/* ① 担当者名：どのブランドで編集しても全ページに即時反映 */
+function syncCoordName(sourceBrand) {
+  const src = document.getElementById('coord-name'+sourceBrand);
+  if (!src) return;
+  const name = src.textContent.trim();
+  BRANDS.forEach(b => {
+    const el = document.getElementById('coord-name'+b);
+    if (el) el.textContent = name;
+  });
+}
+
+/* ② ブランド名を比較ページに即時反映 */
+function syncBrandNameToCmp(brand) {
+  const src = document.getElementById('brand'+brand+'-name');
+  const dst = document.getElementById('cmp'+brand+'-name');
+  if (src && dst) dst.textContent = src.textContent.trim();
 }
 
 /* 未経験/経験者切替 */
@@ -702,19 +719,31 @@ function toggleEditMode() {
       editMode ? el.setAttribute('contenteditable','true') : el.removeAttribute('contenteditable')
     );
   });
-  // wage-input はinputタグなので編集可能（contenteditable不要）
+
+  // ② ブランド名のoninput：比較ページへ即時反映
+  BRANDS.forEach(b => {
+    const nameEl = document.getElementById('brand'+b+'-name');
+    if (nameEl) {
+      nameEl.oninput = editMode ? () => syncBrandNameToCmp(b) : null;
+    }
+    // ① 担当者名のoninput：全ページへ即時反映
+    const coordEl = document.getElementById('coord-name'+b);
+    if (coordEl) {
+      coordEl.oninput = editMode ? () => syncCoordName(b) : null;
+    }
+  });
+
   // ★編集
   document.querySelectorAll('.match-stars .star').forEach(s => {
     s.onclick = editMode ? () => {
       const wrap = s.parentElement;
       const idx = Array.from(wrap.children).indexOf(s);
       updateStars(wrap, idx+1);
-      // data-match更新
       const card = wrap.closest('.cmp-card');
       if (card) card.dataset.match = idx+1;
     } : null;
   });
-  // 編集完了時：比較カードのブランド名・ポイントを同期
+  // 編集完了時：比較カードのポイントを同期
   if (!editMode) { try { syncAllToCmp(); } catch(e) {} }
 }
 
