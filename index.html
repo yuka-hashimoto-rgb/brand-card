@@ -229,7 +229,7 @@ body.edit-mode .main-visual:hover .mv-edit-overlay { display: flex; }
 .cmp-legend { font-size: 10px; color: var(--muted); margin-top: 14px; line-height: 1.7; padding: 10px 12px; background: var(--card); border-radius: 8px; border: 1px solid var(--border); }
 
 /* ======== 編集モード ======== */
-.edit-toggle-bar { position: fixed; bottom: 20px; right: 16px; z-index: 200; }
+.edit-toggle-bar { position: fixed; bottom: 20px; right: 16px; z-index: 200; display: none; }
 .edit-toggle-btn { display: flex; align-items: center; gap: 7px; padding: 11px 18px; border-radius: 28px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.22); transition: background 0.2s; }
 .edit-toggle-btn.editing { background: var(--gold); }
 .edit-hint { display: none; position: fixed; top: 44px; left: 0; right: 0; background: var(--gold); color: #fff; text-align: center; font-size: 11px; padding: 7px 16px; letter-spacing: 0.04em; z-index: 150; }
@@ -608,6 +608,12 @@ function sortCards(mode, e) {
 (function(){
   const rc = ['rank-1','rank-2','rank-3','rank-4'];
   Array.from(document.getElementById('compareList').children).forEach((c,i) => c.classList.add(rc[i]));
+
+  // URLに ?edit=on がある場合だけ編集ボタンを表示
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('edit') === 'on') {
+    document.querySelector('.edit-toggle-bar').style.display = 'block';
+  }
 })();
 
 /* ブランド名フォント・サイズ変更 */
