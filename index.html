@@ -184,7 +184,7 @@ body.edit-mode .main-visual:hover .mv-edit-overlay { display: flex; }
 
 /* ── 担当者 ── */
 .coordinator { display: flex; align-items: center; gap: 10px; padding: 14px 20px; background: var(--tag-bg); }
-.coord-avatar { width: 36px; height: 36px; border-radius: 50%; background: #D8D2C8; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #6B5E4E; flex-shrink: 0; }
+.coord-avatar { display: none; }
 .coord-name { font-size: 13px; font-weight: 500; }
 .coord-role { font-size: 10px; color: var(--muted); }
 .coord-note { font-size: 10px; color: var(--gold); margin-top: 1px; }
@@ -322,7 +322,7 @@ body.edit-mode .star { cursor: pointer; }
             <label class="wage-radio-label"><input type="radio" name="wageTypeA" value="experienced" onchange="updateWageType('A','experienced')"> 経験者</label>
           </div>
           <div class="wage-banner-main">
-            <input type="text" class="wage-input" id="brandA-wage" placeholder="1,500" inputmode="numeric">
+            <input type="text" class="wage-input" id="brandA-wage" placeholder="1,500" inputmode="numeric" oninput="syncWageToCmp('A')">
             <span class="wage-banner-yen">円</span>
           </div>
           <div class="wage-raise-note" id="brandA-raise">＊1年後に昇給あり</div>
@@ -425,7 +425,7 @@ body.edit-mode .star { cursor: pointer; }
             <label class="wage-radio-label"><input type="radio" name="wageTypeB" value="experienced" onchange="updateWageType('B','experienced')"> 経験者</label>
           </div>
           <div class="wage-banner-main">
-            <input type="text" class="wage-input" id="brandB-wage" placeholder="1,500" inputmode="numeric">
+            <input type="text" class="wage-input" id="brandB-wage" placeholder="1,500" inputmode="numeric" oninput="syncWageToCmp('B')">
             <span class="wage-banner-yen">円</span>
           </div>
           <div class="wage-raise-note" id="brandB-raise">＊1年後に昇給あり</div>
@@ -480,7 +480,7 @@ body.edit-mode .star { cursor: pointer; }
             <label class="wage-radio-label"><input type="radio" name="wageTypeC" value="experienced" onchange="updateWageType('C','experienced')"> 経験者</label>
           </div>
           <div class="wage-banner-main">
-            <input type="text" class="wage-input" id="brandC-wage" placeholder="1,500" inputmode="numeric">
+            <input type="text" class="wage-input" id="brandC-wage" placeholder="1,500" inputmode="numeric" oninput="syncWageToCmp('C')">
             <span class="wage-banner-yen">円</span>
           </div>
           <div class="wage-raise-note" id="brandC-raise">＊1年後に昇給あり</div>
@@ -535,7 +535,7 @@ body.edit-mode .star { cursor: pointer; }
             <label class="wage-radio-label"><input type="radio" name="wageTypeD" value="experienced" onchange="updateWageType('D','experienced')"> 経験者</label>
           </div>
           <div class="wage-banner-main">
-            <input type="text" class="wage-input" id="brandD-wage" placeholder="1,500" inputmode="numeric">
+            <input type="text" class="wage-input" id="brandD-wage" placeholder="1,500" inputmode="numeric" oninput="syncWageToCmp('D')">
             <span class="wage-banner-yen">円</span>
           </div>
           <div class="wage-raise-note" id="brandD-raise">＊1年後に昇給あり</div>
@@ -630,6 +630,21 @@ function updateWageType(brand, type) {
   } else {
     note.classList.remove('show');
   }
+}
+
+/* 時給を比較ページに連動 */
+function syncWageToCmp(brand) {
+  const input = document.getElementById('brand'+brand+'-wage');
+  if (!input) return;
+  const raw = input.value.replace(/[^0-9]/g, '');
+  const wage = parseInt(raw);
+  if (isNaN(wage) || wage === 0) return;
+  const cmpWage = document.getElementById('cmp'+brand+'-wage');
+  const cmpBar  = document.getElementById('cmp'+brand+'-bar');
+  const card    = cmpWage ? cmpWage.closest('.cmp-card') : null;
+  if (cmpWage) cmpWage.textContent = wage.toLocaleString();
+  if (cmpBar)  cmpBar.style.width = Math.min(Math.round(wage / MAX_WAGE * 100), 100) + '%';
+  if (card)    card.dataset.wage = wage;
 }
 
 /* 廃止: applyWageByLocation, toggleExpWage は不要 */
