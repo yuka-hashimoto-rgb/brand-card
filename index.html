@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ご紹介ブランド</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=M+PLUS+1p:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -44,6 +44,17 @@ body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: va
 .legend-note { font-size: 11px; color: var(--muted); }
 .note-box { background: #FFF8EE; border: 1px solid #EED9B0; border-radius: 10px; padding: 12px 14px; }
 .note-box p { font-size: 11px; color: #7A5A20; line-height: 1.7; }
+
+/* ── ブランド名スタイル変更UI ── */
+.brand-style-ui { display: none; flex-direction: column; gap: 10px; padding: 10px 20px 12px; background: #FFFBF3; border-bottom: 1px solid var(--gold-light); }
+body.edit-mode .brand-style-ui { display: flex; }
+.brand-style-row { display: flex; align-items: center; gap: 8px; }
+.brand-style-label { font-size: 10px; color: var(--muted); width: 48px; flex-shrink: 0; letter-spacing: 0.04em; }
+.font-select { flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid var(--border); border-radius: 6px; background: #fff; color: var(--text); font-family: inherit; outline: none; -webkit-appearance: none; appearance: none; }
+.font-select:focus { border-color: var(--gold); }
+.size-btns { display: flex; gap: 5px; }
+.size-btn { padding: 5px 10px; font-size: 11px; border: 1px solid var(--border); border-radius: 6px; background: #fff; color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.size-btn.active, .size-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
 /* ======== ブランドページ ======== */
 .brand-page { padding: 20px 16px 48px; display: flex; flex-direction: column; align-items: center; }
@@ -279,6 +290,28 @@ body.edit-mode .star { cursor: pointer; }
       <div class="brand-header">
         <div class="brand-title" id="brandA-name">ブランド名</div>
       </div>
+      <div class="brand-style-ui">
+        <div class="brand-style-row">
+          <span class="brand-style-label">字体</span>
+          <select class="font-select" onchange="applyBrandFont('A', this.value)">
+            <option value="'Cormorant Garamond', serif">Cormorant（デフォルト）</option>
+            <option value="'Playfair Display', serif">Playfair Display</option>
+            <option value="'Shippori Mincho', serif">しっぽり明朝</option>
+            <option value="'Zen Kaku Gothic New', sans-serif">禅角ゴシック</option>
+            <option value="'M PLUS 1p', sans-serif">M PLUS 1p</option>
+            <option value="'Noto Sans JP', sans-serif">Noto Sans JP</option>
+          </select>
+        </div>
+        <div class="brand-style-row">
+          <span class="brand-style-label">サイズ</span>
+          <div class="size-btns">
+            <button class="size-btn" onclick="applyBrandSize('A', '24px')">小</button>
+            <button class="size-btn" onclick="applyBrandSize('A', '30px')">中</button>
+            <button class="size-btn active" onclick="applyBrandSize('A', '36px')">大</button>
+            <button class="size-btn" onclick="applyBrandSize('A', '44px')">特大</button>
+          </div>
+        </div>
+      </div>
 
       <!-- 時給バナー -->
       <div class="wage-banner">
@@ -363,6 +396,28 @@ body.edit-mode .star { cursor: pointer; }
     <p class="intro-label">ご紹介ブランド 2</p>
     <div class="card">
       <div class="brand-header"><div class="brand-title" id="brandB-name">ブランド名</div></div>
+      <div class="brand-style-ui">
+        <div class="brand-style-row">
+          <span class="brand-style-label">字体</span>
+          <select class="font-select" onchange="applyBrandFont('B', this.value)">
+            <option value="'Cormorant Garamond', serif">Cormorant（デフォルト）</option>
+            <option value="'Playfair Display', serif">Playfair Display</option>
+            <option value="'Shippori Mincho', serif">しっぽり明朝</option>
+            <option value="'Zen Kaku Gothic New', sans-serif">禅角ゴシック</option>
+            <option value="'M PLUS 1p', sans-serif">M PLUS 1p</option>
+            <option value="'Noto Sans JP', sans-serif">Noto Sans JP</option>
+          </select>
+        </div>
+        <div class="brand-style-row">
+          <span class="brand-style-label">サイズ</span>
+          <div class="size-btns">
+            <button class="size-btn" onclick="applyBrandSize('B', '24px')">小</button>
+            <button class="size-btn" onclick="applyBrandSize('B', '30px')">中</button>
+            <button class="size-btn active" onclick="applyBrandSize('B', '36px')">大</button>
+            <button class="size-btn" onclick="applyBrandSize('B', '44px')">特大</button>
+          </div>
+        </div>
+      </div>
       <div class="wage-banner">
         <div class="wage-banner-left">
           <div class="wage-type-row">
@@ -396,6 +451,28 @@ body.edit-mode .star { cursor: pointer; }
     <p class="intro-label">ご紹介ブランド 3</p>
     <div class="card">
       <div class="brand-header"><div class="brand-title" id="brandC-name">ブランド名</div></div>
+      <div class="brand-style-ui">
+        <div class="brand-style-row">
+          <span class="brand-style-label">字体</span>
+          <select class="font-select" onchange="applyBrandFont('C', this.value)">
+            <option value="'Cormorant Garamond', serif">Cormorant（デフォルト）</option>
+            <option value="'Playfair Display', serif">Playfair Display</option>
+            <option value="'Shippori Mincho', serif">しっぽり明朝</option>
+            <option value="'Zen Kaku Gothic New', sans-serif">禅角ゴシック</option>
+            <option value="'M PLUS 1p', sans-serif">M PLUS 1p</option>
+            <option value="'Noto Sans JP', sans-serif">Noto Sans JP</option>
+          </select>
+        </div>
+        <div class="brand-style-row">
+          <span class="brand-style-label">サイズ</span>
+          <div class="size-btns">
+            <button class="size-btn" onclick="applyBrandSize('C', '24px')">小</button>
+            <button class="size-btn" onclick="applyBrandSize('C', '30px')">中</button>
+            <button class="size-btn active" onclick="applyBrandSize('C', '36px')">大</button>
+            <button class="size-btn" onclick="applyBrandSize('C', '44px')">特大</button>
+          </div>
+        </div>
+      </div>
       <div class="wage-banner">
         <div class="wage-banner-left">
           <div class="wage-type-row">
@@ -429,6 +506,28 @@ body.edit-mode .star { cursor: pointer; }
     <p class="intro-label">ご紹介ブランド 4</p>
     <div class="card">
       <div class="brand-header"><div class="brand-title" id="brandD-name">ブランド名</div></div>
+      <div class="brand-style-ui">
+        <div class="brand-style-row">
+          <span class="brand-style-label">字体</span>
+          <select class="font-select" onchange="applyBrandFont('D', this.value)">
+            <option value="'Cormorant Garamond', serif">Cormorant（デフォルト）</option>
+            <option value="'Playfair Display', serif">Playfair Display</option>
+            <option value="'Shippori Mincho', serif">しっぽり明朝</option>
+            <option value="'Zen Kaku Gothic New', sans-serif">禅角ゴシック</option>
+            <option value="'M PLUS 1p', sans-serif">M PLUS 1p</option>
+            <option value="'Noto Sans JP', sans-serif">Noto Sans JP</option>
+          </select>
+        </div>
+        <div class="brand-style-row">
+          <span class="brand-style-label">サイズ</span>
+          <div class="size-btns">
+            <button class="size-btn" onclick="applyBrandSize('D', '24px')">小</button>
+            <button class="size-btn" onclick="applyBrandSize('D', '30px')">中</button>
+            <button class="size-btn active" onclick="applyBrandSize('D', '36px')">大</button>
+            <button class="size-btn" onclick="applyBrandSize('D', '44px')">特大</button>
+          </div>
+        </div>
+      </div>
       <div class="wage-banner">
         <div class="wage-banner-left">
           <div class="wage-type-row">
@@ -506,6 +605,21 @@ function sortCards(mode, e) {
   const rc = ['rank-1','rank-2','rank-3','rank-4'];
   Array.from(document.getElementById('compareList').children).forEach((c,i) => c.classList.add(rc[i]));
 })();
+
+/* ブランド名フォント・サイズ変更 */
+function applyBrandFont(brand, fontFamily) {
+  const el = document.getElementById('brand'+brand+'-name');
+  if (el) el.style.fontFamily = fontFamily;
+}
+function applyBrandSize(brand, size) {
+  const el = document.getElementById('brand'+brand+'-name');
+  if (el) el.style.fontSize = size;
+  // ボタンのactiveを切替
+  const btns = document.querySelectorAll(`[onclick*="applyBrandSize('${brand}'"]`);
+  btns.forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick').includes(`'${size}'`));
+  });
+}
 
 /* 未経験/経験者切替 */
 function updateWageType(brand, type) {
