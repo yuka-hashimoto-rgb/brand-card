@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理者マニュアル｜橋本さん用</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F7F5F2; --card: #fff; --accent: #2A2420; --gold: #A07850;
+  --gold-light: #EED9B0; --text: #1C1C1A; --muted: #787670;
+  --border: #E6E2DC; --tag: #F0EDE8;
+  --green: #1A5C35; --green-bg: #EFF6F1; --green-border: #C2DDC9;
+  --blue: #1D3A8A; --blue-bg: #EEF2FF; --blue-border: #C7D2FE;
+  --amber: #7A4F00; --amber-bg: #FFF8EE; --amber-border: #EED9B0;
+  --red: #7A1A1A; --red-bg: #FFF0F0; --red-border: #F5C2C2;
+}
+body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+.header { background: var(--accent); color: #fff; padding: 32px 20px 28px; text-align: center; }
+.header-tag { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 10px; }
+.header h1 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 8px; }
+.header p { font-size: 12px; color: rgba(255,255,255,0.65); letter-spacing: 0.04em; }
+
+.toc { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 20px; }
+.toc-title { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.toc-list { display: flex; flex-direction: column; gap: 6px; }
+.toc-item { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-size: 13px; }
+.toc-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.section { padding: 24px 20px; border-bottom: 1px solid var(--border); }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.section-num { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; }
+.section-desc { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.7; }
+
+.steps { display: flex; flex-direction: column; gap: 10px; }
+.step { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; gap: 12px; align-items: flex-start; }
+.step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--gold); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-body { flex: 1; }
+.step-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.step-desc { font-size: 12px; color: var(--muted); line-height: 1.65; }
+.step-sub { font-size: 11px; color: var(--muted); margin-top: 5px; background: var(--bg); border-radius: 6px; padding: 6px 10px; line-height: 1.6; }
+
+.code { background: var(--accent); color: #E8E4DC; font-family: 'Courier New', monospace; font-size: 12px; padding: 10px 14px; border-radius: 8px; margin: 8px 0; letter-spacing: 0.02em; word-break: break-all; line-height: 1.6; }
+.code-hl { color: var(--gold-light); font-weight: 700; }
+
+.note { border-radius: 8px; padding: 12px 14px; margin: 10px 0; }
+.note.amber { background: var(--amber-bg); border: 1px solid var(--amber-border); }
+.note.green { background: var(--green-bg); border: 1px solid var(--green-border); }
+.note.red   { background: var(--red-bg);   border: 1px solid var(--red-border); }
+.note.blue  { background: var(--blue-bg);  border: 1px solid var(--blue-border); }
+.note-icon { font-size: 14px; margin-bottom: 4px; }
+.note.amber p { font-size: 12px; color: var(--amber); line-height: 1.65; }
+.note.green p { font-size: 12px; color: var(--green); line-height: 1.65; }
+.note.red   p { font-size: 12px; color: var(--red);   line-height: 1.65; }
+.note.blue  p { font-size: 12px; color: var(--blue);  line-height: 1.65; }
+
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+.url-card { border-radius: 10px; padding: 12px 14px; margin: 8px 0; }
+.url-card.green { background: var(--green-bg); border: 1px solid var(--green-border); }
+.url-card.blue  { background: var(--blue-bg);  border: 1px solid var(--blue-border); }
+.url-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.url-card.green .url-label { color: var(--green); }
+.url-card.blue  .url-label { color: var(--blue); }
+.url-text { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text); word-break: break-all; line-height: 1.6; }
+
+.summary { background: var(--accent); color: #fff; border-radius: 12px; padding: 16px; margin-top: 8px; }
+.summary-title { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 10px; }
+.summary-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; font-size: 12px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+.summary-row:last-child { margin-bottom: 0; }
+.summary-icon { color: var(--gold-light); flex-shrink: 0; }
+
+.staff-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+.staff-name { font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+.staff-row { font-size: 11px; color: var(--muted); line-height: 1.8; }
+.staff-row strong { color: var(--text); }
+
+.footer { padding: 24px 20px; text-align: center; }
+.footer p { font-size: 11px; color: var(--muted); line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Brand Card — Admin Manual</div>
+  <h1>管理者マニュアル</h1>
+  <p>橋本さん用｜2026年5月</p>
+</div>
+
+<!-- 目次 -->
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <div class="toc-list">
+    <a class="toc-item" href="#sec1"><div class="toc-num">1</div>スタッフをGitHubに招待する</a>
+    <a class="toc-item" href="#sec2"><div class="toc-num">2</div>スタッフ用ファイルをアップロードする</a>
+    <a class="toc-item" href="#sec3"><div class="toc-num">3</div>元データ（テンプレート）を更新する</a>
+    <a class="toc-item" href="#sec4"><div class="toc-num">4</div>スタッフ情報まとめ</a>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<div class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">スタッフをGitHubに招待する</div>
+  </div>
+  <p class="section-desc">田部井さん・郷さんがGitHubアカウントを作ったら、以下の手順で招待します。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-label">リポジトリの「Settings」を開く</div>
+        <div class="step-desc">github.com/yuka-hashimoto-rgb/brand-card を開いて、上部タブの「Settings」をクリック</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-label">「Collaborators」をクリック</div>
+        <div class="step-desc">左メニューの「Collaborators」を選ぶ。パスワードの確認が出たら入力する</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-label">「Add people」をクリック</div>
+        <div class="step-desc">緑のボタン「Add people」を押す</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-label">スタッフのGitHubユーザー名を入力</div>
+        <div class="step-desc">田部井さん・郷さんのGitHubユーザー名を入力して「Select a collaborator above」から選択</div>
+        <div class="step-sub">⚠️ 事前にスタッフからGitHubユーザー名を教えてもらう必要があります</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-label">「Add ○○ to this repository」をクリック</div>
+        <div class="step-desc">スタッフのメールアドレスに招待メールが届く。スタッフが承認したら完了</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note green" style="margin-top:12px">
+    <div class="note-icon">✅</div>
+    <p>田部井さん・郷さんの2人それぞれに同じ手順で招待します。招待後はスタッフが承認するまでお待ちください。</p>
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">スタッフ用ファイルをアップロードする</div>
+  </div>
+  <p class="section-desc">各スタッフの担当者名が入ったファイルを、それぞれのフォルダにアップロードします。</p>
+
+  <p style="font-size:12px; font-weight:700; color:var(--text); margin-bottom:10px;">📁 田部井さん用（index_tabei.html）</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-label">「ファイルを追加」→「Upload files」をクリック</div>
+        <div class="step-desc">リポジトリのトップページから操作する</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-label">index_tabei.html をドロップ</div>
+        <div class="step-desc">ファイル名を以下に書き換える</div>
+      </div>
+    </div>
+  </div>
+  <div class="code">staff-tabei/<span class="code-hl">index.html</span></div>
+  <div class="steps" style="margin-top:8px">
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-label">「Commit changes」を押す</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p style="font-size:12px; font-weight:700; color:var(--text); margin-bottom:10px;">📁 郷さん用（index_go.html）</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-label">同じ手順で index_go.html をドロップ</div>
+        <div class="step-desc">ファイル名を以下に書き換える</div>
+      </div>
+    </div>
+  </div>
+  <div class="code">staff-go/<span class="code-hl">index.html</span></div>
+  <div class="steps" style="margin-top:8px">
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-label">「Commit changes」を押す</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note amber" style="margin-top:12px">
+    <div class="note-icon">⚠️</div>
+    <p>ファイル名にスラッシュ（/）を入力した瞬間にフォルダが自動で作成されます。スラッシュの入力を忘れずに！</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <p style="font-size:12px; font-weight:700; color:var(--text); margin-bottom:8px;">アップロード後の閲覧確認URL</p>
+  <div class="url-card green">
+    <div class="url-label">田部井さんのベースページ</div>
+    <div class="url-text">https://yuka-hashimoto-rgb.github.io/brand-card/staff-tabei/</div>
+  </div>
+  <div class="url-card green">
+    <div class="url-label">郷さんのベースページ</div>
+    <div class="url-text">https://yuka-hashimoto-rgb.github.io/brand-card/staff-go/</div>
+  </div>
+  <p style="font-size:11px; color:var(--muted); margin-top:6px;">アップロード後2〜3分で反映されます</p>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">元データ（テンプレート）を更新する</div>
+  </div>
+  <p class="section-desc">デザインや機能を変更したとき、スタッフ全員のファイルを新しいバージョンに差し替えます。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-label">Claudeで新しいファイルをダウンロード</div>
+        <div class="step-desc">修正済みの brand_card_v○.html・index_tabei.html・index_go.html・index_hashimoto.html の4ファイルを用意する</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-label">橋本さん用（index.html）を上書き</div>
+        <div class="step-desc">GitHubで staff-hashimoto/index.html を開く → 鉛筆アイコン → 全選択して削除 → 新ファイルの内容を貼り付け → Commit changes</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-label">田部井さん用（index.html）を上書き</div>
+        <div class="step-desc">staff-tabei/index.html を同じ手順で上書き</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-label">郷さん用（index.html）を上書き</div>
+        <div class="step-desc">staff-go/index.html を同じ手順で上書き</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note red" style="margin-top:12px">
+    <div class="note-icon">⚠️</div>
+    <p>登録者フォルダ（tanaka/index.html など）は上書きしないでください。スタッフが入力したデータが消えてしまいます。ベースファイル（staff-○○/index.html）だけを更新します。</p>
+  </div>
+
+  <div class="summary" style="margin-top:14px">
+    <div class="summary-title">更新対象ファイルまとめ</div>
+    <div class="summary-row"><span class="summary-icon">✓</span>staff-hashimoto/index.html（橋本さん用）</div>
+    <div class="summary-row"><span class="summary-icon">✓</span>staff-tabei/index.html（田部井さん用）</div>
+    <div class="summary-row"><span class="summary-icon">✓</span>staff-go/index.html（郷さん用）</div>
+    <div class="summary-row"><span class="summary-icon">✗</span>staff-○○/tanaka/index.html などは触らない</div>
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section" id="sec4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">スタッフ情報まとめ</div>
+  </div>
+  <p class="section-desc">各スタッフのフォルダ・URLを一覧でまとめています。</p>
+
+  <div class="staff-card">
+    <div class="staff-name">🙋 橋本さん（あなた）</div>
+    <div class="staff-row">
+      <strong>フォルダ：</strong>staff-hashimoto/<br>
+      <strong>編集用URL：</strong>https://yuka-hashimoto-rgb.github.io/brand-card/staff-hashimoto/?edit=on<br>
+      <strong>閲覧用URL：</strong>https://yuka-hashimoto-rgb.github.io/brand-card/staff-hashimoto/
+    </div>
+  </div>
+
+  <div class="staff-card">
+    <div class="staff-name">👤 田部井さん</div>
+    <div class="staff-row">
+      <strong>フォルダ：</strong>staff-tabei/<br>
+      <strong>編集用URL：</strong>https://yuka-hashimoto-rgb.github.io/brand-card/staff-tabei/?edit=on<br>
+      <strong>閲覧用URL（ベース）：</strong>https://yuka-hashimoto-rgb.github.io/brand-card/staff-tabei/
+    </div>
+  </div>
+
+  <div class="staff-card">
+    <div class="staff-name">👤 郷さん</div>
+    <div class="staff-row">
+      <strong>フォルダ：</strong>staff-go/<br>
+      <strong>編集用URL：</strong>https://yuka-hashimoto-rgb.github.io/brand-card/staff-go/?edit=on<br>
+      <strong>閲覧用URL（ベース）：</strong>https://yuka-hashimoto-rgb.github.io/brand-card/staff-go/
+    </div>
+  </div>
+
+  <div class="note blue" style="margin-top:4px">
+    <div class="note-icon">💡</div>
+    <p>登録者用URLは「スタッフのフォルダ/登録者名/」の形で作られます。例：staff-tabei/tanaka/ → https://yuka-hashimoto-rgb.github.io/brand-card/staff-tabei/tanaka/</p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>リポジトリ：github.com/yuka-hashimoto-rgb/brand-card<br>
+  ご不明な点はClaudeにご相談ください</p>
+</div>
+
+</body>
+</html>
