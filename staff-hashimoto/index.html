@@ -229,7 +229,10 @@ body.edit-mode .main-visual:hover .mv-edit-overlay { display: flex; }
 .cmp-legend { font-size: 10px; color: var(--muted); margin-top: 14px; line-height: 1.7; padding: 10px 12px; background: var(--card); border-radius: 8px; border: 1px solid var(--border); }
 
 /* ======== 編集モード ======== */
-.edit-toggle-bar { position: fixed; bottom: 20px; right: 16px; z-index: 200; display: none; }
+.edit-toggle-bar { position: fixed; bottom: 20px; right: 16px; z-index: 200; display: none; flex-direction: column; gap: 8px; align-items: flex-end; }
+.save-btn { display: none; align-items: center; gap: 7px; padding: 11px 18px; border-radius: 28px; background: var(--green, #1A5C35); color: #fff; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.22); transition: background 0.2s; }
+.save-btn:hover { background: #154a2b; }
+body.edit-mode .save-btn { display: flex; }
 .edit-toggle-btn { display: flex; align-items: center; gap: 7px; padding: 11px 18px; border-radius: 28px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.22); transition: background 0.2s; }
 .edit-toggle-btn.editing { background: var(--gold); }
 .edit-hint { display: none; position: fixed; top: 44px; left: 0; right: 0; background: var(--gold); color: #fff; text-align: center; font-size: 11px; padding: 7px 16px; letter-spacing: 0.04em; z-index: 150; }
@@ -243,6 +246,10 @@ body.edit-mode .star { cursor: pointer; }
 
 <div class="edit-hint">✏️ 編集モード中：テキストをタップして書き換え・★タップでおすすめ度変更</div>
 <div class="edit-toggle-bar">
+  <button class="save-btn" onclick="saveAsHTML()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    <span>💾 保存してダウンロード</span>
+  </button>
   <button class="edit-toggle-btn" id="editToggleBtn" onclick="toggleEditMode()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
     <span id="editBtnLabel">✏️ 編集モード</span>
@@ -615,6 +622,87 @@ function sortCards(mode, e) {
     document.querySelector('.edit-toggle-bar').style.display = 'block';
   }
 })();
+
+/* 💾 HTMLとして保存してダウンロード */
+function saveAsHTML() {
+  // contenteditable属性を一時的に除去してクリーンなHTMLを生成
+  const clone = document.documentElement.cloneNode(true);
+
+  // cloneのcontenteditable属性をすべて削除
+  clone.querySelectorAll('[contenteditable]').forEach(el => {
+    el.removeAttribute('contenteditable');
+  });
+
+  // edit-modeクラスをbodyから除去
+  clone.querySelector('body').classList.remove('edit-mode');
+
+  // 画像データを保持（Base64のまま）
+  // wage-inputの値をhtmlに埋め込む
+  document.querySelectorAll('.wage-input').forEach((input, i) => {
+    const cloneInputs = clone.querySelectorAll('.wage-input');
+    if (cloneInputs[i]) cloneInputs[i].value = input.value;
+  });
+
+  // ラジオボタンの状態を保持
+  document.querySelectorAll('input[type="radio"]').forEach((radio, i) => {
+    const cloneRadios = clone.querySelectorAll('input[type="radio"]');
+    if (cloneRadios[i]) cloneRadios[i].checked = radio.checked;
+  });
+
+  // トグルの状態を保持
+  document.querySelectorAll('input[type="checkbox"]').forEach((cb, i) => {
+    const cloneCbs = clone.querySelectorAll('input[type="checkbox"]');
+    if (cloneCbs[i]) cloneCbs[i].checked = cb.checked;
+  });
+
+  // 画像のsrcを保持
+  document.querySelectorAll('img').forEach((img, i) => {
+    const cloneImgs = clone.querySelectorAll('img');
+    if (cloneImgs[i]) cloneImgs[i].src = img.src;
+  });
+
+  // has-imageクラスを保持
+  document.querySelectorAll('.has-image').forEach(el => {
+    const id = el.id;
+    if (id) {
+      const cloneEl = clone.querySelector('#' + id);
+      if (cloneEl) cloneEl.classList.add('has-image');
+    }
+  });
+
+  // img-section-hiddenクラスを保持（画像あり/なし）
+  document.querySelectorAll('.section').forEach(el => {
+    const id = el.id;
+    if (id) {
+      const cloneEl = clone.querySelector('#' + id);
+      if (cloneEl) {
+        if (el.classList.contains('img-section-hidden')) {
+          cloneEl.classList.add('img-section-hidden');
+        } else {
+          cloneEl.classList.remove('img-section-hidden');
+        }
+      }
+    }
+  });
+
+  // exp-wage-rowの表示状態を保持
+  BRANDS.forEach(b => {
+    const row = document.getElementById('brand'+b+'-exprow');
+    const cloneRow = clone.querySelector('#brand'+b+'-exprow');
+    if (row && cloneRow) {
+      cloneRow.style.display = row.style.display;
+    }
+  });
+
+  const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'index.html';
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 /* ブランド名フォント・サイズ変更 */
 function applyBrandFont(brand, fontFamily) {
