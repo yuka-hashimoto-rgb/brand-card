@@ -98,6 +98,8 @@ body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: va
     <a class="toc-item" href="#sec2"><div class="toc-num">2</div>スタッフ用ファイルをアップロードする</a>
     <a class="toc-item" href="#sec3"><div class="toc-num">3</div>元データ（テンプレート）を更新する</a>
     <a class="toc-item" href="#sec4"><div class="toc-num">4</div>スタッフ情報まとめ</a>
+    <a class="toc-item" href="#sec5"><div class="toc-num">5</div>編集内容を保存・反映する</a>
+    <a class="toc-item" href="#sec6"><div class="toc-num">6</div>登録者ファイルを削除する</a>
   </div>
 </div>
 
@@ -322,6 +324,54 @@ body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: va
     <div class="note-icon">💡</div>
     <p>登録者用URLは「スタッフのフォルダ/登録者名/」の形で作られます。例：staff-tabei/tanaka/ → https://yuka-hashimoto-rgb.github.io/brand-card/staff-tabei/tanaka/</p>
   </div>
+</div>
+
+
+<!-- SECTION 5 -->
+<div class="section" id="sec5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div class="section-title">編集内容を保存・反映する</div>
+  </div>
+  <p class="section-desc">編集モードで変更した内容は、GitHubにアップロードして初めてURLに反映されます。2ステップで完了します。</p>
+
+  <p style="font-size:12px; font-weight:700; color:var(--text); margin-bottom:10px;">Step 1：ダウンロード</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-label">編集用URLを開いて編集モードをオンにする</div><div class="step-desc">右下の「✏️ 編集モード」をタップして編集する</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-label">「💾 保存してダウンロード」を押す</div><div class="step-desc">編集モード中に右下に表示される緑のボタンを押すと index.html がダウンロードされる</div></div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p style="font-size:12px; font-weight:700; color:var(--text); margin-bottom:10px;">Step 2：GitHubに上書きアップロード</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-label">GitHubで対象フォルダの index.html を開く</div><div class="step-desc">例：staff-hashimoto/tanaka/index.html を開く</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-label">鉛筆アイコン（Edit）をクリック</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-label">Ctrl+A で全選択 → Delete で削除</div><div class="step-desc">Mac の場合は Command+A</div></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-label">ダウンロードした index.html の内容を貼り付ける</div><div class="step-desc">ダウンロードしたファイルをテキストエディタで開いて全選択コピー → GitHubに貼り付け</div></div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body"><div class="step-label">「Commit changes」を押す</div></div></div>
+    <div class="step"><div class="step-num">8</div><div class="step-body"><div class="step-label">2〜3分後に閲覧用URLで確認する</div><div class="step-desc">ブラウザで強制リロード（iPhoneはリロードボタン長押し、PCはCtrl+Shift+R）すると確実に最新版が表示される</div></div></div>
+  </div>
+
+  <div class="note red" style="margin-top:12px"><div class="note-icon">⚠️</div><p>「💾 保存してダウンロード」だけではURLには反映されません。必ずGitHubへの上書きアップロードまで行ってください。</p></div>
+</div>
+
+<!-- SECTION 6 -->
+<div class="section" id="sec6">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div class="section-title">登録者ファイルを削除する</div>
+  </div>
+  <p class="section-desc">不要になった登録者フォルダを削除する手順です。</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-label">GitHubのリポジトリを開く</div><div class="step-desc">github.com/yuka-hashimoto-rgb/brand-card にアクセス</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-label">対象スタッフのフォルダ → 登録者フォルダの順に開く</div><div class="step-desc">例：staff-hashimoto → tanaka の順にクリック</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-label">index.html をクリック</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-label">右上の「…」をクリック</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-label">「Delete file」をクリック</div><div class="step-desc">赤文字で表示されている「Delete file」を選択</div></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-label">「Commit changes」を押す</div><div class="step-desc">これで登録者フォルダごと削除される</div></div></div>
+  </div>
+  <div class="note green" style="margin-top:12px"><div class="note-icon">✅</div><p>削除後はそのURLにアクセスしても「ページが見つかりません」と表示されます。登録者に送ったURLは開けなくなります。</p></div>
 </div>
 
 <div class="footer">
