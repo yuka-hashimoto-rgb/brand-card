@@ -618,8 +618,9 @@ function sortCards(mode, e) {
 
   // URLに ?edit=on がある場合だけ編集ボタンを表示
   const params = new URLSearchParams(window.location.search);
-  if (params.get('edit') === 'on') {
-    document.querySelector('.edit-toggle-bar').style.display = 'block';
+  window._editAllowed = params.get('edit') === 'on';
+  if (window._editAllowed) {
+    document.querySelector('.edit-toggle-bar').style.display = 'flex';
   }
 })();
 
@@ -801,7 +802,7 @@ function updateLink(id, url) {
 
 /* 画像アップロード */
 function triggerAtmUpload(brand, idx) {
-  if (!editMode) return;
+  if (!editMode || !window._editAllowed) return;
   document.getElementById('atmInput'+brand+'-'+idx).click();
 }
 function loadAtmImage(input, imgId, areaId) {
@@ -819,7 +820,7 @@ function loadAtmImage(input, imgId, areaId) {
   reader.readAsDataURL(file);
 }
 function triggerMvUpload(brand) {
-  if (!editMode) return;
+  if (!editMode || !window._editAllowed) return;
   document.getElementById('mvInput'+brand).click();
 }
 function loadMvImage(input, imgId, areaId) {
@@ -860,6 +861,8 @@ const EDITABLE = ['.brand-title','.rec-text','.coord-name','.cmp-point'];
 let editMode = false;
 
 function toggleEditMode() {
+  // 編集URLでない場合は何もしない
+  if (!window._editAllowed) return;
   editMode = !editMode;
   document.body.classList.toggle('edit-mode', editMode);
   document.getElementById('editToggleBtn').classList.toggle('editing', editMode);
