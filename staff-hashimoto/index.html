@@ -624,7 +624,7 @@ function sortCards(mode, e) {
 })();
 
 /* 💾 HTMLとして保存してダウンロード */
-function saveAsHTML() {
+async function saveAsHTML() {
   // contenteditable属性を一時的に除去してクリーンなHTMLを生成
   const clone = document.documentElement.cloneNode(true);
 
@@ -670,19 +670,20 @@ function saveAsHTML() {
     }
   });
 
-  // img-section-hiddenクラスを保持（画像あり/なし）
-  document.querySelectorAll('.section').forEach(el => {
-    const id = el.id;
-    if (id) {
+  // img-section-hiddenクラスを保持（画像セクションのみ）
+  ['A','B','C','D'].forEach(b => {
+    ['mv','atm'].forEach(type => {
+      const id = 'section' + b + '-' + type;
+      const el = document.getElementById(id);
       const cloneEl = clone.querySelector('#' + id);
-      if (cloneEl) {
+      if (el && cloneEl) {
         if (el.classList.contains('img-section-hidden')) {
           cloneEl.classList.add('img-section-hidden');
         } else {
           cloneEl.classList.remove('img-section-hidden');
         }
       }
-    }
+    });
   });
 
   // exp-wage-rowの表示状態を保持
@@ -693,6 +694,31 @@ function saveAsHTML() {
       cloneRow.style.display = row.style.display;
     }
   });
+
+  // 画像を圧縮（Base64→Canvas→圧縮Base64）
+  const imgPromises = [];
+  clone.querySelectorAll('img').forEach((cloneImg, i) => {
+    const origImg = document.querySelectorAll('img')[i];
+    if (origImg && origImg.src && origImg.src.startsWith('data:image')) {
+      const p = new Promise(resolve => {
+        const canvas = document.createElement('canvas');
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 800;
+          let w = img.width, h = img.height;
+          if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+          if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; }
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          cloneImg.src = canvas.toDataURL('image/jpeg', 0.7);
+          resolve();
+        };
+        img.src = origImg.src;
+      });
+      imgPromises.push(p);
+    }
+  });
+  await Promise.all(imgPromises);
 
   const html = '<!DOCTYPE html>\n' + clone.outerHTML;
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
