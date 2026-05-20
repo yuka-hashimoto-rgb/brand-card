@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub 操作マニュアル｜ブランドカード</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F7F5F2; --card: #fff; --accent: #2A2420; --gold: #A07850;
+  --gold-light: #EED9B0; --text: #1C1C1A; --muted: #787670;
+  --border: #E6E2DC; --tag: #F0EDE8;
+  --green: #1A5C35; --green-bg: #EFF6F1; --green-border: #C2DDC9;
+  --blue: #1D3A8A; --blue-bg: #EEF2FF; --blue-border: #C7D2FE;
+  --amber: #7A4F00; --amber-bg: #FFF8EE; --amber-border: #EED9B0;
+}
+body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+/* ヘッダー */
+.header { background: var(--accent); color: #fff; padding: 32px 20px 28px; text-align: center; }
+.header-tag { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 10px; }
+.header h1 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 8px; }
+.header p { font-size: 12px; color: rgba(255,255,255,0.65); letter-spacing: 0.04em; }
+
+/* 目次 */
+.toc { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 20px; }
+.toc-title { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.toc-list { display: flex; flex-direction: column; gap: 6px; }
+.toc-item { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-size: 13px; }
+.toc-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* セクション */
+.section { padding: 24px 20px; border-bottom: 1px solid var(--border); }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.section-num { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; }
+
+/* ステップカード */
+.steps { display: flex; flex-direction: column; gap: 10px; }
+.step { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; gap: 12px; align-items: flex-start; }
+.step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--gold); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-body { flex: 1; }
+.step-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.step-desc { font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+/* コードブロック */
+.code { background: var(--accent); color: #E8E4DC; font-family: 'Courier New', monospace; font-size: 12px; padding: 10px 14px; border-radius: 8px; margin: 8px 0; letter-spacing: 0.02em; word-break: break-all; line-height: 1.6; }
+.code-highlight { color: var(--gold-light); font-weight: 700; }
+
+/* URL カード */
+.url-card { border-radius: 10px; padding: 14px; margin: 8px 0; }
+.url-card.green { background: var(--green-bg); border: 1px solid var(--green-border); }
+.url-card.blue  { background: var(--blue-bg);  border: 1px solid var(--blue-border); }
+.url-card.amber { background: var(--amber-bg); border: 1px solid var(--amber-border); }
+.url-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.url-card.green .url-label { color: var(--green); }
+.url-card.blue  .url-label { color: var(--blue); }
+.url-card.amber .url-label { color: var(--amber); }
+.url-text { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text); word-break: break-all; line-height: 1.6; }
+
+/* ノート */
+.note { background: var(--amber-bg); border: 1px solid var(--amber-border); border-radius: 8px; padding: 12px 14px; margin: 10px 0; }
+.note-icon { font-size: 14px; margin-bottom: 4px; }
+.note p { font-size: 12px; color: var(--amber); line-height: 1.65; }
+
+/* 区切り線 */
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+/* タグ */
+.tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: var(--tag); color: var(--muted); border: 1px solid var(--border); margin-right: 4px; margin-bottom: 4px; letter-spacing: 0.04em; }
+.tag.green { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+.tag.blue  { background: var(--blue-bg);  color: var(--blue);  border-color: var(--blue-border); }
+
+/* まとめ */
+.summary { background: var(--accent); color: #fff; border-radius: 12px; padding: 16px; margin-top: 8px; }
+.summary-title { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 10px; }
+.summary-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; font-size: 12px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+.summary-row:last-child { margin-bottom: 0; }
+.summary-icon { color: var(--gold-light); flex-shrink: 0; }
+
+/* フッター */
+.footer { padding: 24px 20px; text-align: center; }
+.footer p { font-size: 11px; color: var(--muted); line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<div class="header">
+  <div class="header-tag">Brand Card — Staff Manual</div>
+  <h1>GitHub 操作マニュアル</h1>
+  <p>田部井・郷 スタッフ向け｜2026年5月</p>
+</div>
+
+<!-- 目次 -->
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <div class="toc-list">
+    <a class="toc-item" href="#sec1"><div class="toc-num">1</div>GitHubアカウントを作る</a>
+    <a class="toc-item" href="#sec2"><div class="toc-num">2</div>リポジトリに招待してもらう</a>
+    <a class="toc-item" href="#sec3"><div class="toc-num">3</div>自分用のファイルを確認する</a>
+    <a class="toc-item" href="#sec4"><div class="toc-num">4</div>登録者用ファイルを新しく作る</a>
+    <a class="toc-item" href="#sec5"><div class="toc-num">5</div>URLの使い分け</div></a>
+    <a class="toc-item" href="#sec6"><div class="toc-num">6</div>登録者を更新するとき</a>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<div class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">GitHubアカウントを作る</div>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-label">GitHubを開く</div><div class="step-desc">ブラウザで <strong>github.com</strong> にアクセスする</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-label">「Sign up」をクリック</div><div class="step-desc">右上または中央にある「Sign up」ボタンを押す</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-label">メールアドレス・パスワード・ユーザー名を入力</div><div class="step-desc">ユーザー名は後でURLに使われます。例：<strong>tabei-staff</strong> など</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-label">メール認証を完了する</div><div class="step-desc">登録したメールに届く確認コードを入力して完了</div></div></div>
+  </div>
+  <div class="note" style="margin-top:12px"><div class="note-icon">💡</div><p>作成できたら、自分のGitHubユーザー名を橋本さんに教えてください。招待してもらうために必要です。</p></div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">リポジトリに招待してもらう</div>
+  </div>
+  <p style="font-size:13px; margin-bottom:12px;">橋本さんが招待メールを送ります。届いたら以下の手順で承認してください。</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-label">招待メールを開く</div><div class="step-desc">GitHubから「You've been invited to...」という件名のメールが届く</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-label">「View invitation」をクリック</div><div class="step-desc">メール内のボタンを押すとGitHubの画面が開く</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-label">「Accept invitation」をクリック</div><div class="step-desc">これで招待が完了。リポジトリにアクセスできるようになる</div></div></div>
+  </div>
+  <div class="divider"></div>
+  <p style="font-size:12px; color:var(--muted);">招待後は以下のURLからリポジトリを開けます：</p>
+  <div class="code">github.com/yuka-hashimoto-rgb/brand-card</div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">自分用のファイルを確認する</div>
+  </div>
+  <p style="font-size:13px; margin-bottom:12px;">橋本さんが事前に各自のフォルダを用意しています。</p>
+
+  <p style="font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">田部井さんのフォルダ</p>
+  <div class="code">brand-card / <span class="code-highlight">staff-tabei</span> / index.html</div>
+
+  <p style="font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; margin-top:12px;">郷さんのフォルダ</p>
+  <div class="code">brand-card / <span class="code-highlight">staff-go</span> / index.html</div>
+
+  <div class="note"><div class="note-icon">⚠️</div><p>他のスタッフのフォルダは編集しないでください。自分のフォルダだけを操作するようにしましょう。</p></div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section" id="sec4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">登録者用ファイルを新しく作る</div>
+  </div>
+  <p style="font-size:13px; margin-bottom:12px;">登録者ごとに専用フォルダを作り、ブランド情報を入れます。</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-label">リポジトリを開いて自分のフォルダに入る</div><div class="step-desc">例：staff-tabei フォルダをクリックして中を開く</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-label">index.html をクリック</div><div class="step-desc">自分のベースファイルを開く</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-label">鉛筆アイコン（Edit）をクリック</div><div class="step-desc">右上に表示されているアイコンを押す</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-label">全選択してコピー</div><div class="step-desc">Ctrl+A（Mac：Command+A）で全選択 → Ctrl+C（Command+C）でコピー。その後 ✕ で閉じる</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-label">「ファイルを追加」→「新しいファイルを作成」をクリック</div><div class="step-desc">リポジトリのトップページにある「ファイルを追加」ボタンから選ぶ</div></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-label">ファイル名を入力する</div><div class="step-desc">登録者の名前でフォルダを作る。例：田中さんの場合👇</div></div></div>
+  </div>
+
+  <div class="code" style="margin-top:4px">staff-tabei/<span class="code-highlight">tanaka</span>/index.html</div>
+  <p style="font-size:11px; color:var(--muted); margin: 6px 0 12px;">※ スラッシュ（/）を入力するとフォルダが自動で作成されます</p>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">7</div><div class="step-body"><div class="step-label">下の空欄にCtrl+V（Command+V）で貼り付け</div><div class="step-desc">コピーした内容をそのまま貼り付ける</div></div></div>
+    <div class="step"><div class="step-num">8</div><div class="step-body"><div class="step-label">「Commit changes」を押す</div><div class="step-desc">画面右上または下部にある緑のボタンを押して保存完了</div></div></div>
+    <div class="step"><div class="step-num">9</div><div class="step-body"><div class="step-label">編集用URLを開いてブランド情報を入力する</div><div class="step-desc">2〜3分後に編集用URLにアクセスして、右下の「✏️ 編集モード」で内容を更新する</div></div></div>
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="section" id="sec5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div class="section-title">URLの使い分け</div>
+  </div>
+  <p style="font-size:13px; margin-bottom:14px;">URLは2種類あります。用途によって使い分けてください。</p>
+
+  <p style="font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.08em; margin-bottom:6px;">🔒 編集用URL（自分だけが使う）</p>
+  <div class="url-card blue">
+    <div class="url-label">田部井さんの場合（田中さん用）</div>
+    <div class="url-text">https://yuka-hashimoto-rgb.github.io/brand-card/staff-tabei/tanaka/<span style="color:#3451B2;font-weight:700;">?edit=on</span></div>
+  </div>
+  <div class="url-card blue">
+    <div class="url-label">郷さんの場合（田中さん用）</div>
+    <div class="url-text">https://yuka-hashimoto-rgb.github.io/brand-card/staff-go/tanaka/<span style="color:#3451B2;font-weight:700;">?edit=on</span></div>
+  </div>
+  <p style="font-size:11px; color:var(--muted); margin: 6px 0 14px;">末尾に <strong>?edit=on</strong> をつけると編集ボタンが表示されます</p>
+
+  <p style="font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.08em; margin-bottom:6px;">👁 閲覧用URL（登録者に送る）</p>
+  <div class="url-card green">
+    <div class="url-label">田部井さんの場合（田中さん用）</div>
+    <div class="url-text">https://yuka-hashimoto-rgb.github.io/brand-card/staff-tabei/tanaka/</div>
+  </div>
+  <div class="url-card green">
+    <div class="url-label">郷さんの場合（田中さん用）</div>
+    <div class="url-text">https://yuka-hashimoto-rgb.github.io/brand-card/staff-go/tanaka/</div>
+  </div>
+  <p style="font-size:11px; color:var(--muted); margin-top:6px;">このURLを開くと編集ボタンは表示されません。LINEやメールにそのまま貼り付けて送ってください。</p>
+
+  <div class="divider"></div>
+  <p style="font-size:12px; font-weight:700; color:var(--text); margin-bottom:8px;">URLのルール</p>
+  <p style="font-size:12px; color:var(--muted); line-height:1.8;">
+    <span class="tag">staff-tabei</span> = 田部井さんのフォルダ<br>
+    <span class="tag">staff-go</span> = 郷さんのフォルダ<br>
+    <span class="tag">tanaka</span> = 登録者名（自由に決めてOK）<br>
+    <span class="tag blue">?edit=on</span> = 編集モード（自分用）
+  </p>
+</div>
+
+<!-- SECTION 6 -->
+<div class="section" id="sec6">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div class="section-title">登録者を更新するとき</div>
+  </div>
+  <p style="font-size:13px; margin-bottom:12px;">同じ登録者に別のブランドを紹介するときや、新しい登録者に切り替えるときの手順です。</p>
+
+  <p style="font-size:12px; font-weight:700; margin-bottom:8px;">同じ田中さんに新しいブランド情報を送る場合</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-label">編集用URLを開く</div><div class="step-desc">…/staff-tabei/tanaka/?edit=on にアクセス</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-label">「✏️ 編集モード」で内容を書き換える</div><div class="step-desc">ブランド名・時給・ポイントなどを更新する</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-label">同じ閲覧URLを田中さんに送る</div><div class="step-desc">…/staff-tabei/tanaka/ を送るだけでOK</div></div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p style="font-size:12px; font-weight:700; margin-bottom:8px;">別の登録者（佐藤さん）に新しく作る場合</p>
+  <div class="code">staff-tabei/<span class="code-highlight">sato</span>/index.html</div>
+  <p style="font-size:11px; color:var(--muted); margin-top:6px;">SECTION 4 の手順でフォルダ名だけ変えて作成してください</p>
+
+  <div class="summary" style="margin-top:16px">
+    <div class="summary-title">まとめ：毎回の流れ</div>
+    <div class="summary-row"><span class="summary-icon">①</span>登録者フォルダを作成（初回のみ）</div>
+    <div class="summary-row"><span class="summary-icon">②</span>編集用URLでブランド情報を入力</div>
+    <div class="summary-row"><span class="summary-icon">③</span>閲覧用URLを登録者にLINE/メールで送る</div>
+    <div class="summary-row"><span class="summary-icon">④</span>次の登録者が来たら①からくり返す</div>
+  </div>
+</div>
+
+<!-- フッター -->
+<div class="footer">
+  <p>ご不明な点は橋本さんにご確認ください<br>
+  リポジトリ：github.com/yuka-hashimoto-rgb/brand-card</p>
+</div>
+
+</body>
+</html>
