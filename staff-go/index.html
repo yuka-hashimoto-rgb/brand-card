@@ -166,9 +166,14 @@ body.edit-mode .has-image .img-adjust-ui { display: flex; }
 .img-adjust-btn:hover { background: rgba(255,255,255,0.25); }
 
 /* 画像コンテナ（ドラッグ対応） */
-.img-wrap { width: 100%; height: 100%; overflow: hidden; position: relative; }
-.img-wrap img { position: absolute; transform-origin: center center; cursor: grab; user-select: none; }
+.img-wrap { width: 100%; height: 100%; overflow: hidden; position: relative; display: none; }
+.has-image .img-wrap { display: block; }
+.img-wrap img { position: absolute; width: 100%; height: 100%; object-fit: cover; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: grab; user-select: none; }
 .img-wrap img.dragging { cursor: grabbing; }
+
+/* img-wrap追加後の上書き */
+.atm-cell img { display: block; }
+.main-visual img { display: block; max-height: none; }
 .img-section-hidden { display: none; }
 body.edit-mode .img-section-hidden { display: block; }
 
@@ -180,7 +185,8 @@ body.edit-mode .atm-cell:hover .atm-edit-overlay { display: flex; }
 .main-visual {
   width: 100%; background: #EDEAE5;
   position: relative; overflow: hidden;
-  min-height: 120px; display: flex; align-items: center; justify-content: center;
+  height: 200px;
+  display: flex; align-items: center; justify-content: center;
   cursor: default;
 }
 .main-visual img { width: 100%; display: block; object-fit: cover; max-height: 200px; display: none; }
