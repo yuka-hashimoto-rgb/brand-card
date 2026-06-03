@@ -935,30 +935,37 @@ async function saveAsHTML() {
 /* 画像削除 */
 function deleteImg(imgId, areaId) {
   if (!window._editAllowed || !editMode) return;
-  const img = document.getElementById(imgId);
-  const area = document.getElementById(areaId);
-  if (img) { img.src = ''; img.style = ''; }
-  if (area) area.classList.remove('has-image');
-  // 対応するfile inputをリセット（atm-cellの中のinput[file]も含む）
-  if (area) {
-    const fileInput = area.querySelector('input[type="file"]');
-    if (fileInput) fileInput.value = '';
-  }
-  // imgWrapの中のimgも念のりセット
+
+  // imgWrap内のimgをリセット
   const wrap = document.getElementById('imgWrap-' + imgId);
   if (wrap) {
     const wrapImg = wrap.querySelector('img');
-    if (wrapImg) { wrapImg.src = ''; wrapImg.style = ''; }
+    if (wrapImg) { wrapImg.src = ''; wrapImg.removeAttribute('style'); }
   }
+
+  // areaのhas-imageを削除
+  const area = document.getElementById(areaId);
+  if (area) area.classList.remove('has-image');
+
+  // file inputをリセット（atm-cellの場合は親のatm-gridから探す）
+  // atmAreaA-0 → atmInputA-0
+  const inputId = areaId.replace('atmArea','atmInput').replace('mvArea','mvInput');
+  const fileInput = document.getElementById(inputId);
+  if (fileInput) fileInput.value = '';
+
   // imgStateをリセット
   if (imgState[imgId]) delete imgState[imgId];
-  // スライダーをリセット
-  const adjustUI = area ? area.querySelector('.img-adjust-ui') : null;
-  if (adjustUI) {
-    adjustUI.querySelectorAll('.img-adjust-slider').forEach(s => {
-      s.value = s.min === '-100' ? 0 : 100;
-    });
+
+  // スライダーをリセット（img-adjust-uiはimgWrapの兄弟要素）
+  if (wrap && wrap.parentElement) {
+    const adjustUI = wrap.parentElement.querySelector('.img-adjust-ui');
+    if (adjustUI) {
+      adjustUI.querySelectorAll('.img-adjust-slider').forEach(s => {
+        s.value = s.min === '-100' ? 0 : 100;
+      });
+    }
   }
+
   // セクションの表示を更新
   const brand = areaId.replace('mvArea','').replace('atmArea','').replace(/-\d/,'');
   updateImgSections(brand);
