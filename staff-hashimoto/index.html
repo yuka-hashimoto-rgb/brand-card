@@ -97,7 +97,8 @@ body.edit-mode .brand-style-ui { display: flex; }
 .wage-type-row { display: flex; gap: 12px; margin-bottom: 6px; }
 .wage-radio-label { font-size: 11px; color: rgba(255,255,255,0.85); display: flex; align-items: center; gap: 4px; cursor: pointer; }
 .wage-radio-label input[type="radio"] { accent-color: var(--gold); width: 13px; height: 13px; }
-.wage-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; color: #fff; font-size: 22px; font-weight: 700; font-family: inherit; width: 110px; padding: 2px 8px; outline: none; letter-spacing: -0.01em; }
+.wage-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; color: #fff; font-size: 22px; font-weight: 700; font-family: inherit; width: 110px; padding: 2px 8px; outline: none; letter-spacing: -0.01em; pointer-events: none; }
+body.edit-allowed .wage-input { pointer-events: auto; }
 .wage-input::placeholder { color: rgba(255,255,255,0.3); font-size: 18px; }
 .wage-input:focus { border-color: var(--gold); }
 .wage-raise-note { font-size: 10px; color: var(--gold-light); letter-spacing: 0.04em; margin-top: 4px; display: none; }
@@ -149,11 +150,11 @@ body.edit-mode .link-url-edit { display: flex; }
 .atm-placeholder { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #B0A898; }
 .atm-placeholder svg { opacity: 0.5; }
 .atm-placeholder span { font-size: 9px; letter-spacing: 0.06em; }
-.atm-edit-overlay { display: none; position: absolute; inset: 0; background: rgba(160,120,80,0.2); align-items: center; justify-content: center; }
+.atm-edit-overlay { display: none; position: absolute; bottom: 0; left: 0; right: 0; height: 36px; background: rgba(160,120,80,0.85); align-items: center; justify-content: center; }
 .atm-edit-overlay svg { color: var(--gold); }
 /* 画像調整UI */
 .img-adjust-ui {
-  display: none; position: absolute; bottom: 0; left: 0; right: 0;
+  display: none; position: absolute; top: 0; left: 0; right: 0;
   background: rgba(30,24,20,0.82); padding: 8px 10px; z-index: 10;
   flex-direction: column; gap: 6px;
 }
@@ -195,7 +196,7 @@ body.edit-mode .atm-cell:hover .atm-edit-overlay { display: flex; }
 .mv-placeholder { display: flex; flex-direction: column; align-items: center; gap: 6px; color: #B0A898; padding: 24px 0; }
 .mv-placeholder svg { opacity: 0.4; }
 .mv-placeholder span { font-size: 10px; letter-spacing: 0.08em; }
-.mv-edit-overlay { display: none; position: absolute; inset: 0; background: rgba(160,120,80,0.15); align-items: center; justify-content: center; flex-direction: column; gap: 6px; font-size: 11px; color: var(--gold); font-weight: 500; }
+.mv-edit-overlay { display: none; position: absolute; bottom: 0; left: 0; right: 0; height: 48px; background: rgba(160,120,80,0.85); align-items: center; justify-content: center; flex-direction: row; gap: 6px; font-size: 11px; color: #fff; font-weight: 500; }
 body.edit-mode .main-visual { cursor: pointer; }
 body.edit-mode .main-visual:hover .mv-edit-overlay { display: flex; }
 .mv-file-input { display: none; }
@@ -252,7 +253,8 @@ body.edit-mode .main-visual:hover .mv-edit-overlay { display: flex; }
 .cmp-legend { font-size: 10px; color: var(--muted); margin-top: 14px; line-height: 1.7; padding: 10px 12px; background: var(--card); border-radius: 8px; border: 1px solid var(--border); }
 
 /* ======== 編集モード ======== */
-.edit-toggle-bar { position: fixed; bottom: 20px; right: 16px; z-index: 200; display: none; flex-direction: column; gap: 8px; align-items: flex-end; }
+.edit-toggle-bar { position: fixed; bottom: 20px; right: 16px; z-index: 200; display: none !important; flex-direction: column; gap: 8px; align-items: flex-end; }
+.edit-toggle-bar.visible { display: flex !important; }
 .save-btn { display: none; align-items: center; gap: 7px; padding: 11px 18px; border-radius: 28px; background: var(--green, #1A5C35); color: #fff; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.22); transition: background 0.2s; }
 .save-btn:hover { background: #154a2b; }
 body.edit-mode .save-btn { display: flex; }
@@ -385,7 +387,7 @@ body.edit-mode .star { cursor: pointer; }
       <div class="section img-section-hidden" id="sectionA-mv">
         <div class="sec-label">Main Visual</div>
         <div class="main-visual" id="mvAreaA" onclick="triggerMvUpload('A')">
-          <div class="img-wrap" id="imgWrap-mvA"><img id="mvA" src="" alt=""></div><div class="img-adjust-ui">
+          <div class="img-wrap" id="imgWrap-mvA"><img id="mvA" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('mvA','mvAreaA');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('mvA','scale',this.value)">
@@ -412,7 +414,7 @@ body.edit-mode .star { cursor: pointer; }
         <div class="sec-label">Atmosphere</div>
         <div class="atm-grid">
           <div class="atm-cell" id="atmAreaA-0" onclick="triggerAtmUpload('A',0)">
-            <div class="img-wrap" id="imgWrap-atmA-0"><img id="atmA-0" src="" alt=""></div><div class="img-adjust-ui">
+            <div class="img-wrap" id="imgWrap-atmA-0"><img id="atmA-0" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmA-0','atmAreaA-0');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('atmA-0','scale',this.value)">
@@ -430,7 +432,7 @@ body.edit-mode .star { cursor: pointer; }
             <input type="file" accept="image/*" class="atm-file-input" id="atmInputA-0" onchange="loadAtmImage(this,'atmA-0','atmAreaA-0')">
           </div>
           <div class="atm-cell" id="atmAreaA-1" onclick="triggerAtmUpload('A',1)">
-            <div class="img-wrap" id="imgWrap-atmA-1"><img id="atmA-1" src="" alt=""></div><div class="img-adjust-ui">
+            <div class="img-wrap" id="imgWrap-atmA-1"><img id="atmA-1" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmA-1','atmAreaA-1');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('atmA-1','scale',this.value)">
@@ -512,7 +514,7 @@ body.edit-mode .star { cursor: pointer; }
       </div>
       <div class="link-url-edit"><div class="url-input-group"><span class="url-input-label">公式HP</span><input class="url-input-field" type="url" placeholder="https://..." oninput="updateLink('linkB-hp',this.value)"></div><div class="url-input-group"><span class="url-input-label">Instagram</span><input class="url-input-field" type="url" placeholder="https://instagram.com/..." oninput="updateLink('linkB-ig',this.value)"></div><div class="url-input-group"><span class="url-input-label">求人情報</span><input class="url-input-field" type="url" placeholder="https://..." oninput="updateLink('linkB-job',this.value)"></div></div>
       <div class="link-row"><a class="link-btn" id="linkB-hp" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>公式HP</a><a class="link-btn" id="linkB-ig" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a><a class="link-btn" id="linkB-job" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>求人情報</a></div>
-      <div class="section img-section-hidden" id="sectionB-mv"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaB" onclick="triggerMvUpload('B')"><div class="img-wrap" id="imgWrap-mvB"><img id="mvB" src="" alt=""></div><div class="img-adjust-ui">
+      <div class="section img-section-hidden" id="sectionB-mv"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaB" onclick="triggerMvUpload('B')"><div class="img-wrap" id="imgWrap-mvB"><img id="mvB" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('mvB','mvAreaB');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('mvB','scale',this.value)">
@@ -527,7 +529,7 @@ body.edit-mode .star { cursor: pointer; }
             <input type="range" class="img-adjust-slider" min="-100" max="100" value="0" oninput="adjustImg('mvB','x',this.value)">
           </div>
         </div><div class="mv-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>ブランドを象徴するメインビジュアル</span></div><div class="mv-edit-overlay"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>タップして画像を選択</div><input type="file" accept="image/*" class="mv-file-input" id="mvInputB" onchange="loadMvImage(this,'mvB','mvAreaB')"></div></div>
-      <div class="section img-section-hidden" id="sectionB-atm"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaB-0" onclick="triggerAtmUpload('B',0)"><div class="img-wrap" id="imgWrap-atmB-0"><img id="atmB-0" src="" alt=""></div><div class="img-adjust-ui">
+      <div class="section img-section-hidden" id="sectionB-atm"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaB-0" onclick="triggerAtmUpload('B',0)"><div class="img-wrap" id="imgWrap-atmB-0"><img id="atmB-0" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmB-0','atmAreaB-0');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('atmB-0','scale',this.value)">
@@ -541,7 +543,7 @@ body.edit-mode .star { cursor: pointer; }
             <span class="img-adjust-label">左右</span>
             <input type="range" class="img-adjust-slider" min="-100" max="100" value="0" oninput="adjustImg('atmB-0','x',this.value)">
           </div>
-        </div><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputB-0" onchange="loadAtmImage(this,'atmB-0','atmAreaB-0')"></div><div class="atm-cell" id="atmAreaB-1" onclick="triggerAtmUpload('B',1)"><div class="img-wrap" id="imgWrap-atmB-1"><img id="atmB-1" src="" alt=""></div><div class="img-adjust-ui">
+        </div><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputB-0" onchange="loadAtmImage(this,'atmB-0','atmAreaB-0')"></div><div class="atm-cell" id="atmAreaB-1" onclick="triggerAtmUpload('B',1)"><div class="img-wrap" id="imgWrap-atmB-1"><img id="atmB-1" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmB-1','atmAreaB-1');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('atmB-1','scale',this.value)">
@@ -609,7 +611,7 @@ body.edit-mode .star { cursor: pointer; }
       </div>
       <div class="link-url-edit"><div class="url-input-group"><span class="url-input-label">公式HP</span><input class="url-input-field" type="url" placeholder="https://..." oninput="updateLink('linkC-hp',this.value)"></div><div class="url-input-group"><span class="url-input-label">Instagram</span><input class="url-input-field" type="url" placeholder="https://instagram.com/..." oninput="updateLink('linkC-ig',this.value)"></div><div class="url-input-group"><span class="url-input-label">求人情報</span><input class="url-input-field" type="url" placeholder="https://..." oninput="updateLink('linkC-job',this.value)"></div></div>
       <div class="link-row"><a class="link-btn" id="linkC-hp" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>公式HP</a><a class="link-btn" id="linkC-ig" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a><a class="link-btn" id="linkC-job" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>求人情報</a></div>
-      <div class="section img-section-hidden" id="sectionC-mv"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaC" onclick="triggerMvUpload('C')"><div class="img-wrap" id="imgWrap-mvC"><img id="mvC" src="" alt=""></div><div class="img-adjust-ui">
+      <div class="section img-section-hidden" id="sectionC-mv"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaC" onclick="triggerMvUpload('C')"><div class="img-wrap" id="imgWrap-mvC"><img id="mvC" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('mvC','mvAreaC');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('mvC','scale',this.value)">
@@ -624,7 +626,7 @@ body.edit-mode .star { cursor: pointer; }
             <input type="range" class="img-adjust-slider" min="-100" max="100" value="0" oninput="adjustImg('mvC','x',this.value)">
           </div>
         </div><div class="mv-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>ブランドを象徴するメインビジュアル</span></div><div class="mv-edit-overlay"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>タップして画像を選択</div><input type="file" accept="image/*" class="mv-file-input" id="mvInputC" onchange="loadMvImage(this,'mvC','mvAreaC')"></div></div>
-      <div class="section img-section-hidden" id="sectionC-atm"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaC-0" onclick="triggerAtmUpload('C',0)"><div class="img-wrap" id="imgWrap-atmC-0"><img id="atmC-0" src="" alt=""></div><div class="img-adjust-ui">
+      <div class="section img-section-hidden" id="sectionC-atm"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaC-0" onclick="triggerAtmUpload('C',0)"><div class="img-wrap" id="imgWrap-atmC-0"><img id="atmC-0" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmC-0','atmAreaC-0');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('atmC-0','scale',this.value)">
@@ -638,7 +640,7 @@ body.edit-mode .star { cursor: pointer; }
             <span class="img-adjust-label">左右</span>
             <input type="range" class="img-adjust-slider" min="-100" max="100" value="0" oninput="adjustImg('atmC-0','x',this.value)">
           </div>
-        </div><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputC-0" onchange="loadAtmImage(this,'atmC-0','atmAreaC-0')"></div><div class="atm-cell" id="atmAreaC-1" onclick="triggerAtmUpload('C',1)"><div class="img-wrap" id="imgWrap-atmC-1"><img id="atmC-1" src="" alt=""></div><div class="img-adjust-ui">
+        </div><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputC-0" onchange="loadAtmImage(this,'atmC-0','atmAreaC-0')"></div><div class="atm-cell" id="atmAreaC-1" onclick="triggerAtmUpload('C',1)"><div class="img-wrap" id="imgWrap-atmC-1"><img id="atmC-1" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmC-1','atmAreaC-1');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('atmC-1','scale',this.value)">
@@ -706,7 +708,7 @@ body.edit-mode .star { cursor: pointer; }
       </div>
       <div class="link-url-edit"><div class="url-input-group"><span class="url-input-label">公式HP</span><input class="url-input-field" type="url" placeholder="https://..." oninput="updateLink('linkD-hp',this.value)"></div><div class="url-input-group"><span class="url-input-label">Instagram</span><input class="url-input-field" type="url" placeholder="https://instagram.com/..." oninput="updateLink('linkD-ig',this.value)"></div><div class="url-input-group"><span class="url-input-label">求人情報</span><input class="url-input-field" type="url" placeholder="https://..." oninput="updateLink('linkD-job',this.value)"></div></div>
       <div class="link-row"><a class="link-btn" id="linkD-hp" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>公式HP</a><a class="link-btn" id="linkD-ig" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a><a class="link-btn" id="linkD-job" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>求人情報</a></div>
-      <div class="section img-section-hidden" id="sectionD-mv"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaD" onclick="triggerMvUpload('D')"><div class="img-wrap" id="imgWrap-mvD"><img id="mvD" src="" alt=""></div><div class="img-adjust-ui">
+      <div class="section img-section-hidden" id="sectionD-mv"><div class="sec-label">Main Visual</div><div class="main-visual" id="mvAreaD" onclick="triggerMvUpload('D')"><div class="img-wrap" id="imgWrap-mvD"><img id="mvD" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('mvD','mvAreaD');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('mvD','scale',this.value)">
@@ -721,7 +723,7 @@ body.edit-mode .star { cursor: pointer; }
             <input type="range" class="img-adjust-slider" min="-100" max="100" value="0" oninput="adjustImg('mvD','x',this.value)">
           </div>
         </div><div class="mv-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>ブランドを象徴するメインビジュアル</span></div><div class="mv-edit-overlay"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>タップして画像を選択</div><input type="file" accept="image/*" class="mv-file-input" id="mvInputD" onchange="loadMvImage(this,'mvD','mvAreaD')"></div></div>
-      <div class="section img-section-hidden" id="sectionD-atm"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaD-0" onclick="triggerAtmUpload('D',0)"><div class="img-wrap" id="imgWrap-atmD-0"><img id="atmD-0" src="" alt=""></div><div class="img-adjust-ui">
+      <div class="section img-section-hidden" id="sectionD-atm"><div class="sec-label">Atmosphere</div><div class="atm-grid"><div class="atm-cell" id="atmAreaD-0" onclick="triggerAtmUpload('D',0)"><div class="img-wrap" id="imgWrap-atmD-0"><img id="atmD-0" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmD-0','atmAreaD-0');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('atmD-0','scale',this.value)">
@@ -735,7 +737,7 @@ body.edit-mode .star { cursor: pointer; }
             <span class="img-adjust-label">左右</span>
             <input type="range" class="img-adjust-slider" min="-100" max="100" value="0" oninput="adjustImg('atmD-0','x',this.value)">
           </div>
-        </div><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputD-0" onchange="loadAtmImage(this,'atmD-0','atmAreaD-0')"></div><div class="atm-cell" id="atmAreaD-1" onclick="triggerAtmUpload('D',1)"><div class="img-wrap" id="imgWrap-atmD-1"><img id="atmD-1" src="" alt=""></div><div class="img-adjust-ui">
+        </div><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>店内</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" accept="image/*" class="atm-file-input" id="atmInputD-0" onchange="loadAtmImage(this,'atmD-0','atmAreaD-0')"></div><div class="atm-cell" id="atmAreaD-1" onclick="triggerAtmUpload('D',1)"><div class="img-wrap" id="imgWrap-atmD-1"><img id="atmD-1" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmD-1','atmAreaD-1');event.stopPropagation()">✕</button><div class="img-adjust-ui">
           <div class="img-adjust-row">
             <span class="img-adjust-label">サイズ</span>
             <input type="range" class="img-adjust-slider" min="50" max="200" value="100" oninput="adjustImg('atmD-1','scale',this.value)">
@@ -811,7 +813,8 @@ function sortCards(mode, e) {
   const params = new URLSearchParams(window.location.search);
   window._editAllowed = params.get('edit') === 'on';
   if (window._editAllowed) {
-    document.querySelector('.edit-toggle-bar').style.display = 'flex';
+    document.querySelector('.edit-toggle-bar').classList.add('visible');
+    document.body.classList.add('edit-allowed');
   }
 })();
 
@@ -829,10 +832,13 @@ async function saveAsHTML() {
   clone.querySelector('body').classList.remove('edit-mode');
 
   // 画像データを保持（Base64のまま）
-  // wage-inputの値をhtmlに埋め込む
+  // wage-inputの値をvalue属性として埋め込む（保存後も反映されるように）
   document.querySelectorAll('.wage-input').forEach((input, i) => {
     const cloneInputs = clone.querySelectorAll('.wage-input');
-    if (cloneInputs[i]) cloneInputs[i].value = input.value;
+    if (cloneInputs[i]) {
+      cloneInputs[i].setAttribute('value', input.value);
+      cloneInputs[i].value = input.value;
+    }
   });
 
   // ラジオボタンの状態を保持
@@ -923,6 +929,23 @@ async function saveAsHTML() {
   a.download = 'index.html';
   a.click();
   URL.revokeObjectURL(url);
+}
+
+/* 画像削除 */
+function deleteImg(imgId, areaId) {
+  if (!window._editAllowed || !editMode) return;
+  const img = document.getElementById(imgId);
+  const area = document.getElementById(areaId);
+  if (img) img.src = '';
+  if (area) area.classList.remove('has-image');
+  // 対応するfile inputをリセット
+  const fileInput = area ? area.querySelector('input[type="file"]') : null;
+  if (fileInput) fileInput.value = '';
+  // imgStateをリセット
+  if (imgState[imgId]) delete imgState[imgId];
+  // セクションの表示を更新
+  const brand = areaId.replace('mvArea','').replace('atmArea','').replace(/-\d/,'');
+  updateImgSections(brand);
 }
 
 /* 画像調整（サイズ・位置） */
