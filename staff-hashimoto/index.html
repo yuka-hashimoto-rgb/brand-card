@@ -47,7 +47,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: va
 
 /* ── ブランド名スタイル変更UI ── */
 .brand-style-ui { display: none; flex-direction: column; gap: 10px; padding: 10px 20px 12px; background: #FFFBF3; border-bottom: 1px solid var(--gold-light); }
-body.edit-mode .brand-style-ui { display: flex; }
+body.edit-mode.edit-allowed .brand-style-ui { display: flex; }
 .brand-style-row { display: flex; align-items: center; gap: 8px; }
 .brand-style-label { font-size: 10px; color: var(--muted); width: 48px; flex-shrink: 0; letter-spacing: 0.04em; }
 .font-select { flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid var(--border); border-radius: 6px; background: #fff; color: var(--text); font-family: inherit; outline: none; -webkit-appearance: none; appearance: none; }
@@ -106,7 +106,7 @@ body.edit-allowed .wage-input { pointer-events: auto; }
 
 /* 経験者時給トグル（編集モード時のみ） */
 .exp-wage-toggle-wrap { display: none; padding: 8px 20px; background: #3A302A; border-bottom: 1px solid rgba(255,255,255,0.08); align-items: center; gap: 8px; }
-body.edit-mode .exp-wage-toggle-wrap { display: flex; }
+body.edit-mode.edit-allowed .exp-wage-toggle-wrap { display: flex; }
 .toggle-switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
 .toggle-switch input { display: none; }
 .toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,0.2); border-radius: 20px; cursor: pointer; transition: background 0.2s; }
@@ -120,7 +120,7 @@ body.edit-mode .exp-wage-toggle-wrap { display: flex; }
 .link-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 10px 4px; border-radius: 10px; border: 1px solid var(--border); background: var(--tag-bg); color: var(--text); font-size: 10px; font-weight: 500; text-decoration: none; letter-spacing: 0.03em; transition: background 0.15s; }
 .link-btn svg { width: 16px; height: 16px; opacity: 0.6; }
 .link-url-edit { display: none; flex-direction: column; gap: 7px; padding: 10px 20px; background: #FFFBF3; border-bottom: 1px solid var(--border); }
-body.edit-mode .link-url-edit { display: flex; }
+body.edit-mode.edit-allowed .link-url-edit { display: flex; }
 .url-input-group { display: flex; align-items: center; gap: 8px; }
 .url-input-label { font-size: 10px; color: var(--muted); width: 56px; flex-shrink: 0; }
 .url-input-field { flex: 1; padding: 6px 8px; font-size: 11px; border: 1px solid var(--border); border-radius: 6px; outline: none; font-family: inherit; color: var(--text); background: #fff; }
@@ -158,7 +158,7 @@ body.edit-mode .link-url-edit { display: flex; }
   background: rgba(30,24,20,0.82); padding: 8px 10px; z-index: 10;
   flex-direction: column; gap: 6px;
 }
-body.edit-mode .has-image .img-adjust-ui { display: flex; }
+body.edit-mode.edit-allowed .has-image .img-adjust-ui { display: flex; }
 .img-adjust-row { display: flex; align-items: center; gap: 8px; }
 .img-adjust-label { font-size: 9px; color: rgba(255,255,255,0.6); letter-spacing: 0.08em; width: 28px; flex-shrink: 0; }
 .img-adjust-slider { flex: 1; height: 3px; accent-color: var(--gold); cursor: pointer; }
@@ -178,8 +178,8 @@ body.edit-mode .has-image .img-adjust-ui { display: flex; }
 .img-section-hidden { display: none; }
 body.edit-mode .img-section-hidden { display: block; }
 
-body.edit-mode .atm-cell { cursor: pointer; }
-body.edit-mode .atm-cell:hover .atm-edit-overlay { display: flex; }
+body.edit-mode.edit-allowed .atm-cell { cursor: pointer; }
+body.edit-mode.edit-allowed .atm-cell:hover .atm-edit-overlay { display: flex; }
 .atm-file-input { display: none; }
 
 /* ── MAIN VISUAL IMAGE ── */
@@ -197,8 +197,8 @@ body.edit-mode .atm-cell:hover .atm-edit-overlay { display: flex; }
 .mv-placeholder svg { opacity: 0.4; }
 .mv-placeholder span { font-size: 10px; letter-spacing: 0.08em; }
 .mv-edit-overlay { display: none; position: absolute; bottom: 0; left: 0; right: 0; height: 48px; background: rgba(160,120,80,0.85); align-items: center; justify-content: center; flex-direction: row; gap: 6px; font-size: 11px; color: #fff; font-weight: 500; }
-body.edit-mode .main-visual { cursor: pointer; }
-body.edit-mode .main-visual:hover .mv-edit-overlay { display: flex; }
+body.edit-mode.edit-allowed .main-visual { cursor: pointer; }
+body.edit-mode.edit-allowed .main-visual:hover .mv-edit-overlay { display: flex; }
 .mv-file-input { display: none; }
 
 /* ── ブランドの特徴 ── */
@@ -261,10 +261,10 @@ body.edit-mode .save-btn { display: flex; }
 .edit-toggle-btn { display: flex; align-items: center; gap: 7px; padding: 11px 18px; border-radius: 28px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.22); transition: background 0.2s; }
 .edit-toggle-btn.editing { background: var(--gold); }
 .edit-hint { display: none; position: fixed; top: 44px; left: 0; right: 0; background: var(--gold); color: #fff; text-align: center; font-size: 11px; padding: 7px 16px; letter-spacing: 0.04em; z-index: 150; }
-body.edit-mode .edit-hint { display: block; }
-body.edit-mode [contenteditable="true"] { outline: 2px dashed var(--gold); border-radius: 4px; background: rgba(255,200,100,0.12); cursor: text; min-width: 20px; }
-body.edit-mode [contenteditable="true"]:focus { outline: 2px solid var(--gold); background: rgba(255,200,100,0.2); }
-body.edit-mode .star { cursor: pointer; }
+body.edit-mode.edit-allowed .edit-hint { display: block; }
+body.edit-mode.edit-allowed [contenteditable="true"] { outline: 2px dashed var(--gold); border-radius: 4px; background: rgba(255,200,100,0.12); cursor: text; min-width: 20px; }
+body.edit-mode.edit-allowed [contenteditable="true"]:focus { outline: 2px solid var(--gold); background: rgba(255,200,100,0.2); }
+body.edit-mode.edit-allowed .star { cursor: pointer; }
 </style>
 </head>
 <body>
@@ -830,6 +830,7 @@ async function saveAsHTML() {
 
   // edit-modeクラスをbodyから除去
   clone.querySelector('body').classList.remove('edit-mode');
+  clone.querySelector('body').classList.remove('edit-allowed');
 
   // 画像データを保持（Base64のまま）
   // wage-inputの値をvalue属性として埋め込む（保存後も反映されるように）
@@ -936,13 +937,28 @@ function deleteImg(imgId, areaId) {
   if (!window._editAllowed || !editMode) return;
   const img = document.getElementById(imgId);
   const area = document.getElementById(areaId);
-  if (img) img.src = '';
+  if (img) { img.src = ''; img.style = ''; }
   if (area) area.classList.remove('has-image');
-  // 対応するfile inputをリセット
-  const fileInput = area ? area.querySelector('input[type="file"]') : null;
-  if (fileInput) fileInput.value = '';
+  // 対応するfile inputをリセット（atm-cellの中のinput[file]も含む）
+  if (area) {
+    const fileInput = area.querySelector('input[type="file"]');
+    if (fileInput) fileInput.value = '';
+  }
+  // imgWrapの中のimgも念のりセット
+  const wrap = document.getElementById('imgWrap-' + imgId);
+  if (wrap) {
+    const wrapImg = wrap.querySelector('img');
+    if (wrapImg) { wrapImg.src = ''; wrapImg.style = ''; }
+  }
   // imgStateをリセット
   if (imgState[imgId]) delete imgState[imgId];
+  // スライダーをリセット
+  const adjustUI = area ? area.querySelector('.img-adjust-ui') : null;
+  if (adjustUI) {
+    adjustUI.querySelectorAll('.img-adjust-slider').forEach(s => {
+      s.value = s.min === '-100' ? 0 : 100;
+    });
+  }
   // セクションの表示を更新
   const brand = areaId.replace('mvArea','').replace('atmArea','').replace(/-\d/,'');
   updateImgSections(brand);
@@ -1076,6 +1092,9 @@ function updateLink(id, url) {
 /* 画像アップロード */
 function triggerAtmUpload(brand, idx) {
   if (!editMode || !window._editAllowed) return;
+  const area = document.getElementById('atmArea'+brand+'-'+idx);
+  // 画像がすでにある場合は選択画面を出さない（スライダー操作のクリックを無視）
+  if (area && area.classList.contains('has-image')) return;
   document.getElementById('atmInput'+brand+'-'+idx).click();
 }
 function loadAtmImage(input, imgId, areaId) {
@@ -1095,6 +1114,9 @@ function loadAtmImage(input, imgId, areaId) {
 }
 function triggerMvUpload(brand) {
   if (!editMode || !window._editAllowed) return;
+  const area = document.getElementById('mvArea'+brand);
+  // 画像がすでにある場合は選択画面を出さない
+  if (area && area.classList.contains('has-image')) return;
   document.getElementById('mvInput'+brand).click();
 }
 function loadMvImage(input, imgId, areaId) {
