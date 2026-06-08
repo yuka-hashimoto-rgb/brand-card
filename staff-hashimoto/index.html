@@ -170,15 +170,19 @@ body.edit-mode.edit-allowed .has-image ~ .img-adjust-ui { display: flex; }
 .img-adjust-btn { font-size: 10px; padding: 3px 8px; border-radius: 4px; background: rgba(255,255,255,0.15); color: #fff; border: none; cursor: pointer; }
 .img-adjust-btn:hover { background: rgba(255,255,255,0.25); }
 
-/* 画像コンテナ（ドラッグ対応） */
-.img-wrap { width: 100%; height: 100%; overflow: hidden; position: relative; display: none; }
+/* 画像コンテナ */
+.img-wrap {
+  position: absolute; inset: 0;
+  overflow: hidden; display: none;
+}
 .has-image .img-wrap { display: block; }
-.img-wrap img { position: absolute; width: 100%; height: 100%; object-fit: cover; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: grab; user-select: none; }
-.img-wrap img.dragging { cursor: grabbing; }
-
-/* img-wrap追加後の上書き */
-.atm-cell img { display: block; }
-.main-visual img { display: block; max-height: none; }
+.img-wrap img {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
 .img-section-hidden { display: none; }
 body.edit-mode .img-section-hidden { display: block; }
 
@@ -189,15 +193,15 @@ body.edit-mode.edit-allowed .atm-cell:hover .atm-edit-overlay { display: flex; }
 /* ── MAIN VISUAL IMAGE ── */
 .main-visual {
   width: 100%; background: #EDEAE5;
-  overflow: hidden;
+  position: relative;
   min-height: 260px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   cursor: default;
   border-radius: 8px 8px 0 0;
+  overflow: hidden;
 }
-.main-visual img { width: 100%; display: block; object-fit: cover; max-height: 360px; display: none; }
-.main-visual.has-image img { display: block; }
 .main-visual.has-image .mv-placeholder { display: none; }
+.main-visual.has-image .mv-edit-overlay { display: none; }
 .mv-placeholder { display: flex; flex-direction: column; align-items: center; gap: 6px; color: #B0A898; padding: 24px 0; }
 .mv-placeholder svg { opacity: 0.4; }
 .mv-placeholder span { font-size: 10px; letter-spacing: 0.08em; }
@@ -398,15 +402,7 @@ body.edit-mode.edit-allowed .star { cursor: pointer; }
           <input type="file" accept="image/*" class="mv-file-input" id="mvInputA" onchange="loadMvImage(this,'mvA','mvAreaA')"></div></div>
       </div>
 
-      <!-- ブランドの特徴 -->
-      <!-- ATMOSPHERE -->
-                <div class="atm-cell" id="atmAreaA-1" onclick="triggerAtmUpload('A',1)">
-            <div class="img-wrap" id="imgWrap-atmA-1"><img id="atmA-1" src="" alt=""></div><button class="img-delete-btn" onclick="deleteImg('atmA-1','atmAreaA-1');event.stopPropagation()">✕</button><div class="atm-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>商品</span></div><div class="atm-edit-overlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-            <input type="file" accept="image/*" class="atm-file-input" id="atmInputA-1" onchange="loadAtmImage(this,'atmA-1','atmAreaA-1')"></div>        <div class="img-adjust-row"><span class="img-adjust-label">上下</span><input type="range" class="img-adjust-slider" min="-100" max="100" value="0" oninput="adjustImg('atmA-1','y',this.value)"><div class="img-adjust-btns"><button class="img-adjust-btn" onclick="resetImgAdjust('atmA-1')">リセット</button></div></div>
-          <div class="img-adjust-row"><span class="img-adjust-label">左右</span><input type="range" class="img-adjust-slider" min="-100" max="100" value="0" oninput="adjustImg('atmA-1','x',this.value)"></div>
-        </div></div>
-          
-      </div>
+
 
       <!-- RECOMMEND POINTS -->
       <div class="section">
@@ -804,7 +800,9 @@ function getImgState(imgId) {
 }
 
 function applyImgTransform(imgId) {
-  const img = document.getElementById(imgId);
+  // imgWrap内のimgに適用
+  const wrap = document.getElementById('imgWrap-' + imgId);
+  const img = wrap ? wrap.querySelector('img') : document.getElementById(imgId);
   if (!img) return;
   const s = getImgState(imgId);
   img.style.width = s.scale + '%';
@@ -843,7 +841,8 @@ function initImgAdjust(imgId) {
 function saveImgStates(clone) {
   Object.keys(imgState).forEach(imgId => {
     const s = imgState[imgId];
-    const img = clone.getElementById ? clone.getElementById(imgId) : clone.querySelector('#' + imgId);
+    const wrap = clone.getElementById ? clone.getElementById('imgWrap-' + imgId) : clone.querySelector('#imgWrap-' + imgId);
+    const img = wrap ? wrap.querySelector('img') : null;
     if (img) {
       img.style.width = s.scale + '%';
       img.style.height = s.scale + '%';
@@ -957,8 +956,14 @@ function loadMvImage(input, imgId, areaId) {
   const file = input.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
-    document.getElementById(imgId).src = e.target.result;
-    document.getElementById(areaId).classList.add('has-image');
+    // imgWrap内のimgにsrcを設定
+    const wrap = document.getElementById('imgWrap-' + imgId);
+    if (wrap) {
+      const img = wrap.querySelector('img');
+      if (img) img.src = e.target.result;
+    }
+    const area = document.getElementById(areaId);
+    if (area) area.classList.add('has-image');
     initImgAdjust(imgId);
     // セクションを表示
     const brand = areaId.replace('mvArea','');
@@ -969,21 +974,12 @@ function loadMvImage(input, imgId, areaId) {
 
 /* 画像の有無でセクション表示を制御 */
 function updateImgSections(brand) {
-  // Main Visual
+  // Main Visual のみ（Atmosphereは削除済み）
   const mvArea = document.getElementById('mvArea'+brand);
   const mvSection = document.getElementById('section'+brand+'-mv');
   if (mvSection) {
     const hasImg = mvArea && mvArea.classList.contains('has-image');
     mvSection.classList.toggle('img-section-hidden', !hasImg);
-  }
-  // Atmosphere（2枚のどちらかに画像があれば表示）
-  const atm0 = document.getElementById('atmArea'+brand+'-0');
-  const atm1 = document.getElementById('atmArea'+brand+'-1');
-  const atmSection = document.getElementById('section'+brand+'-atm');
-  if (atmSection) {
-    const hasAtm = (atm0 && atm0.classList.contains('has-image')) ||
-                   (atm1 && atm1.classList.contains('has-image'));
-    atmSection.classList.toggle('img-section-hidden', !hasAtm);
   }
 }
 
