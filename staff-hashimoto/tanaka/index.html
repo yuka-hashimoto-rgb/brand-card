@@ -182,16 +182,19 @@ body.edit-mode.edit-allowed .has-image .img-delete-btn { display: flex; }
 
 /* 画像コンテナ */
 .img-wrap {
-  position: absolute; inset: 0;
-  overflow: hidden; display: none;
+  position: relative;
+  width: 100%;
+  display: none;
+  overflow: hidden;
+  text-align: center;
+  background: #EDEAE5;
 }
 .has-image .img-wrap { display: block; }
 .img-wrap img {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%; height: 100%;
-  object-fit: cover;
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 .img-section-hidden { display: none; }
 body.edit-mode .img-section-hidden { display: block; }
@@ -204,12 +207,13 @@ body.edit-mode.edit-allowed .atm-cell:hover .atm-edit-overlay { display: flex; }
 .main-visual {
   width: 100%; background: #EDEAE5;
   position: relative;
-  min-height: 260px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   cursor: default;
   border-radius: 8px 8px 0 0;
-  overflow: hidden;
+  overflow: visible;
+  min-height: 120px;
 }
+.main-visual:not(.has-image) { min-height: 120px; }
 .main-visual.has-image .mv-placeholder { display: none; }
 .main-visual.has-image .mv-edit-overlay { display: none; }
 .mv-placeholder { display: flex; flex-direction: column; align-items: center; gap: 6px; color: #B0A898; padding: 24px 0; }
@@ -828,16 +832,19 @@ function getImgState(imgId) {
 }
 
 function applyImgTransform(imgId) {
-  // imgWrap内のimgに適用
   const wrap = document.getElementById('imgWrap-' + imgId);
-  const img = wrap ? wrap.querySelector('img') : document.getElementById(imgId);
+  const img = wrap ? wrap.querySelector('img') : null;
   if (!img) return;
   const s = getImgState(imgId);
+  // サイズ：width%で制御（100%=元のサイズ）
   img.style.width = s.scale + '%';
-  img.style.height = s.scale + '%';
-  img.style.left = '50%';
-  img.style.top = '50%';
-  img.style.transform = `translate(calc(-50% + ${s.x}px), calc(-50% + ${s.y}px))`;
+  img.style.height = 'auto';
+  img.style.position = 'relative';
+  img.style.display = 'block';
+  img.style.marginLeft = 'auto';
+  img.style.marginRight = 'auto';
+  // 上下・左右はtranslateで調整
+  img.style.transform = `translate(${s.x}px, ${s.y}px)`;
 }
 
 function adjustImg(imgId, prop, val) {
@@ -869,14 +876,16 @@ function initImgAdjust(imgId) {
 function saveImgStates(clone) {
   Object.keys(imgState).forEach(imgId => {
     const s = imgState[imgId];
-    const wrap = clone.getElementById ? clone.getElementById('imgWrap-' + imgId) : clone.querySelector('#imgWrap-' + imgId);
+    const wrap = clone.querySelector('#imgWrap-' + imgId);
     const img = wrap ? wrap.querySelector('img') : null;
     if (img) {
       img.style.width = s.scale + '%';
-      img.style.height = s.scale + '%';
-      img.style.left = '50%';
-      img.style.top = '50%';
-      img.style.transform = `translate(calc(-50% + ${s.x}px), calc(-50% + ${s.y}px))`;
+      img.style.height = 'auto';
+      img.style.position = 'relative';
+      img.style.display = 'block';
+      img.style.marginLeft = 'auto';
+      img.style.marginRight = 'auto';
+      img.style.transform = `translate(${s.x}px, ${s.y}px)`;
     }
   });
 }
